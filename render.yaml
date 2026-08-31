@@ -6,7 +6,7 @@ services:
     name: crisisscape
     runtime: node
     plan: free
-    buildCommand: npm install
+    buildCommand: npm install --omit=dev
     startCommand: npm start
     envVars:
       - key: HOST

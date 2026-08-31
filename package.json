@@ -2,7 +2,7 @@
   "name": "crisisscape",
   "private": true,
   "version": "0.1.0",
-  "description": "CrisisScape \u2014 a live humanitarian watch over the whole planet: a photorealistic 3D globe fusing public data (aircraft, vessels, satellites, earthquakes, active fires, weather, disaster alerts) with a voice AI analyst, for situational awareness and disaster response.",
+  "description": "CrisisScape — a live humanitarian watch over the whole planet: a photorealistic 3D globe fusing public data (aircraft, vessels, satellites, earthquakes, active fires, weather, disaster alerts) with a voice AI analyst, for situational awareness and disaster response.",
   "type": "module",
   "license": "MIT",
   "author": "Marco Ayuste",
@@ -41,13 +41,13 @@
     "egm96-universal": "^1.1.1",
     "mgrs": "^2.1.0",
     "pbf": "^5.1.2",
-    "satellite.js": "^6.0.2"
+    "satellite.js": "^6.0.2",
+    "vite": "^6.0.0",
+    "vite-plugin-cesium": "^1.2.23"
   },
   "devDependencies": {
     "puppeteer": "^24.37.5",
     "sharp": "^0.34.5",
-    "vite": "^6.0.0",
-    "vite-plugin-cesium": "^1.2.23",
     "ws": "^8.21.0"
   }
 }
