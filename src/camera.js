@@ -49,6 +49,31 @@ export function flyToPreset(viewer, presetName, duration = 3.0) {
 /**
  * Set camera to Austin on load with a cinematic fly-in.
  */
+export function flyToToronto(viewer) {
+  // Start high and top-down, then a cinematic fly-in over downtown Toronto
+  // (the app's home city: bike share, heat-relief cool spaces, datacenters).
+  viewer.camera.setView({
+    destination: Cesium.Cartesian3.fromDegrees(-79.3832, 43.6532, 25000),
+    orientation: {
+      heading: Cesium.Math.toRadians(0),
+      pitch: Cesium.Math.toRadians(-90),
+      roll: 0.0,
+    },
+  });
+  setTimeout(() => {
+    viewer.camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(-79.3832, 43.6532, 900),
+      orientation: {
+        heading: Cesium.Math.toRadians(20),
+        pitch: Cesium.Math.toRadians(-32),
+        roll: 0.0,
+      },
+      duration: 4.0,
+      easingFunction: Cesium.EasingFunction.CUBIC_IN_OUT,
+    });
+  }, 500);
+}
+
 export function flyToAustin(viewer) {
   // Start from a high altitude, then fly down
   viewer.camera.setView({
