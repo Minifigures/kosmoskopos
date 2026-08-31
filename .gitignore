@@ -1,0 +1,31 @@
+node_modules
+dist
+.env
+*.log
+screenshots/
+qa-shots/
+output/
+.gev-logs/
+.gev-cache/
+.DS_Store
+.gstack/
+3d-models/
+models/
+
+# --- CrisisScape additions ---
+.env
+.env.*
+!.env.example
+models/
+.gev-cache/
+.cowork/
+# AI-tooling / handoff docs (never commit)
+CLAUDE.md
+AGENTS.md
+COWORK*.md
+.cursorrules
+.windsurfrules
+# internal docs
+PRD.md
+NOTES.md
+TODO.md
