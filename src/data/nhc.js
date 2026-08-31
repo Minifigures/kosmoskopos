@@ -29,6 +29,9 @@ function createNhcLayer() {
   let _count = 0;
   let _lastUpdate = null;
   let _lastError = null;
+  // Analyst seam: active cyclones by intensity (strongest first), so the Duty
+  // Officer can name the storm and its wind speed, not just a count.
+  let _top = [];
 
   const layer = {
     id: 'nhc',
@@ -55,6 +58,7 @@ function createNhcLayer() {
         const storms = Array.isArray(data?.activeStorms) ? data.activeStorms : (Array.isArray(data) ? data : []);
         _ds.entities.removeAll();
         let count = 0;
+        const active = [];
         for (const s of storms) {
           const lat = Number(s.latitudeNumeric ?? s.latitude);
           const lon = Number(s.longitudeNumeric ?? s.longitude);
@@ -66,6 +70,7 @@ function createNhcLayer() {
           const color = stormColor(cls, kt);
           const major = String(cls).toUpperCase() === 'HU' && Number(kt) >= 96;
           count++;
+          active.push({ name, class: label, kt: Number.isFinite(Number(kt)) ? Number(kt) : null, basin: s.basin || s.basinId || '' });
           _ds.entities.add({
             id: `nhc:${s.id || s.binNumber || name}`,
             position: Cesium.Cartesian3.fromDegrees(lon, lat),
@@ -94,6 +99,8 @@ function createNhcLayer() {
             properties: { classification: cls, intensityKt: kt, name, basin: s.basin || s.basinId || '' },
           });
         }
+        active.sort((a, b) => (b.kt ?? -1) - (a.kt ?? -1));
+        _top = active.slice(0, 6);
         _count = count; _lastUpdate = Date.now(); _lastError = null;
         console.log(`[Data:NHC] Updated: ${_count} active tropical cyclones`);
         return true;
@@ -106,9 +113,9 @@ function createNhcLayer() {
 
     destroy(viewer) {
       if (_ds) { viewer.dataSources.remove(_ds, true); _ds = null; }
-      _count = 0; _lastUpdate = null; _lastError = null;
+      _count = 0; _lastUpdate = null; _lastError = null; _top = [];
     },
-    getStats() { return { count: _count, lastUpdate: _lastUpdate, error: _lastError }; },
+    getStats() { return { count: _count, lastUpdate: _lastUpdate, error: _lastError, top: _top }; },
   };
   return layer;
 }

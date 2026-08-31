@@ -56,21 +56,31 @@ function gatherContext() {
   ctx.visualStyle = txt('active-style-name');
   try {
     const layers = [];
+    const highlights = {};
     const map = _dataManager?.layers;
     if (map && typeof map.forEach === 'function') {
       map.forEach((entry, id) => {
         if (!entry?.enabled) return;
         let count = null;
-        try { const s = entry.module?.getStats?.(); count = s?.count ?? s?.total ?? s?.visible ?? s?.rendered ?? null; } catch { /* optional */ }
+        let top = null;
+        try {
+          const s = entry.module?.getStats?.();
+          count = s?.count ?? s?.total ?? s?.visible ?? s?.rendered ?? null;
+          // The most notable records the layer exposes (Duty Officer context):
+          // named storms with wind speed, largest quakes, severest alerts.
+          if (Array.isArray(s?.top) && s.top.length) top = s.top;
+        } catch { /* optional */ }
         layers.push(count != null ? `${id}:${count}` : id);
+        if (top) highlights[id] = top;
       });
     }
     ctx.activeLayers = layers.length ? layers : 'none enabled';
+    if (Object.keys(highlights).length) ctx.highlights = highlights;
   } catch { /* optional */ }
   return ctx;
 }
 
-const SYS = 'You are KosmoSkopos Duty Officer, a calm, precise spatial-intelligence analyst for a live humanitarian 3D globe of Earth built from public data (aircraft, vessels, satellites, earthquakes, active fires, weather, live disaster alerts). Answer using ONLY the live map context plus general knowledge. Be concise: 2-4 sentences, direct answer first. Do not invent specific live values not in the context. This is open-source situational awareness for disaster response, not surveillance of individuals.';
+const SYS = 'You are KosmoSkopos Duty Officer, a calm, precise spatial-intelligence analyst for a live humanitarian 3D globe of Earth built from public data (aircraft, vessels, satellites, earthquakes, active fires, weather, live disaster alerts). Answer using ONLY the live map context plus general knowledge. When the context includes a "highlights" object, cite the specific live events by name and value (storm names with wind speed in kt, the largest earthquake magnitude and place, the severest disaster alerts) rather than only counts. Be concise: 2-4 sentences, direct answer first. Do not invent specific live values not in the context. This is open-source situational awareness for disaster response, not surveillance of individuals.';
 
 async function askServer(question, context, els, attempt = 0) {
   let response = null;

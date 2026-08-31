@@ -28,6 +28,11 @@ function createGdacsLayer() {
   let _lastUpdate = null;
   let _lastError = null;
   let _enabled = false;
+  // Analyst seam: the most severe active alerts (Red first), so the Duty
+  // Officer can name real events instead of only counting them.
+  let _top = [];
+
+  const LEVEL_RANK = { red: 0, orange: 1, green: 2 };
 
   const layer = {
     id: 'gdacs',
@@ -72,6 +77,7 @@ function createGdacsLayer() {
 
         _ds.entities.removeAll();
         let count = 0;
+        const events = [];
         for (const feature of geojson.features) {
           const coords = feature?.geometry?.coordinates;
           if (!Array.isArray(coords) || coords.length < 2) continue;
@@ -86,6 +92,7 @@ function createGdacsLayer() {
           const color = alertColor(level);
           const severe = String(level).toLowerCase() === 'red';
           count++;
+          events.push({ name, type: TYPE_LABEL[type] || type || 'Event', level: String(level || 'orange').toLowerCase() });
 
           _ds.entities.add({
             id: `gdacs:${type}:${p.eventid || count}`,
@@ -122,6 +129,8 @@ function createGdacsLayer() {
           });
         }
 
+        events.sort((a, b) => (LEVEL_RANK[a.level] ?? 3) - (LEVEL_RANK[b.level] ?? 3));
+        _top = events.slice(0, 6);
         _count = count;
         _lastUpdate = Date.now();
         _lastError = null;
@@ -143,10 +152,11 @@ function createGdacsLayer() {
       _count = 0;
       _lastUpdate = null;
       _lastError = null;
+      _top = [];
     },
 
     getStats() {
-      return { count: _count, lastUpdate: _lastUpdate, error: _lastError };
+      return { count: _count, lastUpdate: _lastUpdate, error: _lastError, top: _top };
     },
   };
   return layer;

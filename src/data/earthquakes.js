@@ -127,6 +127,9 @@ export function createEarthquakesLayer({ overlayHost = DEFAULT_OVERLAY_HOST } = 
   let _lastUpdate = null;
   let _lastError = null;
   let _enabled = false;
+  // Analyst seam: the largest recent quakes (magnitude first), so the Duty
+  // Officer can cite the strongest event and where, not only a count.
+  let _top = [];
 
   const layer = {
   id: 'earthquakes',
@@ -180,6 +183,7 @@ export function createEarthquakesLayer({ overlayHost = DEFAULT_OVERLAY_HOST } = 
       _dataSource.entities.removeAll();
       let count = 0;
       const overlayEntries = [];
+      const events = [];
 
       for (const feature of geojson.features) {
         const [lon, lat, depthKm] = feature.geometry.coordinates;
@@ -190,6 +194,7 @@ export function createEarthquakesLayer({ overlayHost = DEFAULT_OVERLAY_HOST } = 
         if (mag < 2.5) continue; // Skip micro-quakes
 
         count++;
+        events.push({ mag: Number(mag), place: place || 'unknown location' });
         const baseRadius = Math.pow(2, mag) * 1000;
         const color = depthColor(depthKm || 0);
         const isSignificant = mag >= 5.0;
@@ -243,6 +248,8 @@ export function createEarthquakesLayer({ overlayHost = DEFAULT_OVERLAY_HOST } = 
         );
       }
 
+      events.sort((a, b) => b.mag - a.mag);
+      _top = events.slice(0, 5).map((e) => ({ mag: Number(e.mag.toFixed(1)), place: e.place }));
       _count = count;
       _lastUpdate = Date.now();
       _lastError = null;
@@ -267,6 +274,7 @@ export function createEarthquakesLayer({ overlayHost = DEFAULT_OVERLAY_HOST } = 
     _count = 0;
     _lastUpdate = null;
     _lastError = null;
+    _top = [];
   },
 
   /**
@@ -307,6 +315,7 @@ export function createEarthquakesLayer({ overlayHost = DEFAULT_OVERLAY_HOST } = 
       count: _count,
       lastUpdate: _lastUpdate,
       error: _lastError,
+      top: _top,
     };
   },
   };

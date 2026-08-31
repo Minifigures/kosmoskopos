@@ -162,6 +162,23 @@ function ruleBasedSitrep(question, context) {
     : (typeof c.activeLayers === 'string' && c.activeLayers !== 'none enabled' ? [c.activeLayers] : []);
   if (layers.length) parts.push(`active layers: ${layers.join(', ')}`);
   else parts.push('no data layers enabled');
+  // Name the notable live events, not just counts, so the offline SITREP is
+  // still substantive (mirrors the "highlights" the cloud model receives).
+  const hi = c.highlights && typeof c.highlights === 'object' ? c.highlights : null;
+  if (hi) {
+    if (Array.isArray(hi.nhc) && hi.nhc.length) {
+      parts.push('active cyclones: ' + hi.nhc.slice(0, 3)
+        .map((s) => `${s.name} (${s.class}${s.kt != null ? ` ${s.kt}kt` : ''})`).join(', '));
+    }
+    if (Array.isArray(hi.earthquakes) && hi.earthquakes.length) {
+      const q0 = hi.earthquakes[0];
+      parts.push(`largest quake M${q0.mag} near ${q0.place}`);
+    }
+    if (Array.isArray(hi.gdacs) && hi.gdacs.length) {
+      parts.push('severest alerts: ' + hi.gdacs.slice(0, 3)
+        .map((a) => `${a.name} (${a.type}${a.level ? `, ${a.level}` : ''})`).join(', '));
+    }
+  }
   const head = parts.length ? parts.join('; ') + '.' : 'Live view active.';
   const q = String(question || '').slice(0, 160);
   return `SITREP (offline mode): ${head} Free cloud AI is momentarily at capacity — ask again shortly, or switch on Private in-browser AI for a local answer.${q ? ` Logged: "${q}"` : ''}`;
