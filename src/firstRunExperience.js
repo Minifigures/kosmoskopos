@@ -87,6 +87,16 @@ export function environmentalLabel(choice = ENVIRONMENTAL_LABEL_CHOICE) {
 
 /** @type {Readonly<Record<string, object>>} */
 export const FIRST_RUN_MISSIONS = Object.freeze({
+  humanitarian: Object.freeze({
+    kind: 'globe',
+    // Social-good thesis (HackSocial): the humanitarian crisis view. Live global
+    // disaster alerts (GDACS) and active hurricanes (NOAA/NHC) for the planet-scale
+    // picture, live earthquakes (USGS) for ground truth, and Toronto's heat-relief
+    // "cool spaces" so the same tool reaches from the whole Earth down to one
+    // vulnerable resident. Keyless — every feed here is free and public.
+    layerIds: Object.freeze(['gdacs', 'nhc', 'earthquakes', 'toronto-cool']),
+    busyText: 'Opening humanitarian watch…',
+  }),
   contacts: Object.freeze({
     kind: 'context',
     contextMode: 'contacts',
