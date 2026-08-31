@@ -451,7 +451,7 @@ function _isExplicitTrackingOrigin(origin) {
 }
 
 const COCKPIT_CONTACT_SIZE_PX = 6;
-const COCKPIT_CIVILIAN_COLOR = Cesium.Color.fromCssColorString('#DCEEFF');
+const COCKPIT_CIVILIAN_COLOR = Cesium.Color.fromCssColorString('#fff2dc');
 const TRACKED_BILLBOARD_SCALE_BY_DISTANCE = new Cesium.NearFarScalar(
   1000, 3.0, 8000000, 0.5,
 );
@@ -570,7 +570,7 @@ function _applyCockpitState(detail = {}) {
 // ---------------------------------------------------------------------------
 
 /** @constant {string} Civilian trail hue (PRD F4, pinned). */
-const TRAIL_COLOR = '#00d4ff';
+const TRAIL_COLOR = '#ffa200';
 /** @constant {number} Combined cap on trail vertices (backfill + live accumulation). */
 const TRAIL_MAX_POINTS = 400;
 /** @type {{setPositions: Function, clear: Function, destroy: Function}|null} Shared fading-trail renderer */
@@ -3304,7 +3304,7 @@ function _updateTrackedLabelModel(icao24) {
   if (!_trackedEntity || icao24 !== _trackedIcao) return;
   _trackedEntity.gevLabelModel = trackedLabelModelFromText(
     _trackedLabelText(icao24),
-    '#39d0ff',
+    '#ffb639',
   );
   refreshTrackedReadout(_trackedEntity);
   // The readout and the context slot describe the same contact — refresh them
@@ -3625,7 +3625,7 @@ function _trackFlight(icao24, { origin = 'programmatic' } = {}) {
   });
   _trackedEntity.gevSelectionOrigin = origin;
   _trackedEntity.gevTrackedId = `flights:${icao24}`;
-  _trackedEntity.gevLabelModel = trackedLabelModelFromText(_trackedLabelText(icao24), '#39d0ff');
+  _trackedEntity.gevLabelModel = trackedLabelModelFromText(_trackedLabelText(icao24), '#ffb639');
 
   // A billboard has a ~zero bounding sphere, so Cesium's default follow distance is
   // far too tight (the user had to scroll out to read the plane). Give the entity a

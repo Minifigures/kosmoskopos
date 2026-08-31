@@ -205,17 +205,17 @@ const CAMERA_ICON = (() => {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
     <defs>
       <linearGradient id="lens" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#c9f6ff"/>
-        <stop offset="45%" stop-color="#6fd9ff"/>
-        <stop offset="100%" stop-color="#1a5f78"/>
+        <stop offset="0%" stop-color="#ffebc9"/>
+        <stop offset="45%" stop-color="#ffca6f"/>
+        <stop offset="100%" stop-color="#78561a"/>
       </linearGradient>
     </defs>
     <g transform="translate(4 6)">
-      <rect x="0" y="8" width="20" height="9" rx="2.5" fill="#0e1720" stroke="#75e7ff" stroke-width="1.2"/>
-      <rect x="17" y="10" width="10" height="5" rx="1.5" fill="#132433" stroke="#75e7ff" stroke-width="1"/>
-      <circle cx="24" cy="12.5" r="3.1" fill="url(#lens)" stroke="#dbfbff" stroke-width="0.8"/>
-      <rect x="6.4" y="17" width="4.2" height="8.5" rx="1.2" fill="#10212d" stroke="#75e7ff" stroke-width="1"/>
-      <rect x="4.2" y="24" width="8.6" height="2.5" rx="1.1" fill="#0b151d" stroke="#4ecde7" stroke-width="0.8"/>
+      <rect x="0" y="8" width="20" height="9" rx="2.5" fill="#20190e" stroke="#ffcc75" stroke-width="1.2"/>
+      <rect x="17" y="10" width="10" height="5" rx="1.5" fill="#332713" stroke="#ffcc75" stroke-width="1"/>
+      <circle cx="24" cy="12.5" r="3.1" fill="url(#lens)" stroke="#fff2db" stroke-width="0.8"/>
+      <rect x="6.4" y="17" width="4.2" height="8.5" rx="1.2" fill="#2d2210" stroke="#ffcc75" stroke-width="1"/>
+      <rect x="4.2" y="24" width="8.6" height="2.5" rx="1.1" fill="#1d160b" stroke="#e7af4e" stroke-width="0.8"/>
     </g>
   </svg>`;
   return 'data:image/svg+xml;base64,' + btoa(svg);
@@ -257,18 +257,18 @@ const CAMERA_SEEDS = [
 // ---------------------------------------------------------------------------
 // Visual style constants
 // ---------------------------------------------------------------------------
-const IDLE_CAMERA_COLOR = Cesium.Color.fromCssColorString('#6be8ff').withAlpha(0.88);
+const IDLE_CAMERA_COLOR = Cesium.Color.fromCssColorString('#ffc96b').withAlpha(0.88);
 const ACTIVE_CAMERA_COLOR = Cesium.Color.fromCssColorString('#ffd97a').withAlpha(0.95);
-const IDLE_COVERAGE_COLOR = Cesium.Color.fromCssColorString('#2fe0ff').withAlpha(0.24);
-const IDLE_COVERAGE_CENTER_MUTED = Cesium.Color.fromCssColorString('#2fe0ff').withAlpha(0.2);
-const IDLE_COVERAGE_EDGE_MUTED = Cesium.Color.fromCssColorString('#2fe0ff').withAlpha(0.18);
+const IDLE_COVERAGE_COLOR = Cesium.Color.fromCssColorString('#ffb32f').withAlpha(0.24);
+const IDLE_COVERAGE_CENTER_MUTED = Cesium.Color.fromCssColorString('#ffb32f').withAlpha(0.2);
+const IDLE_COVERAGE_EDGE_MUTED = Cesium.Color.fromCssColorString('#ffb32f').withAlpha(0.18);
 const ACTIVE_COVERAGE_EDGE = Cesium.Color.fromCssColorString('#8dff87').withAlpha(0.58);
 const ACTIVE_COVERAGE_CENTER = Cesium.Color.fromCssColorString('#d7ff8d').withAlpha(0.82);
 // H6: dimmer depth-fail materials let the active frustum wireframe read
 // through buildings while in monitor fallback mode.
 const ACTIVE_COVERAGE_EDGE_DEPTHFAIL = Cesium.Color.fromCssColorString('#8dff87').withAlpha(0.18);
 const ACTIVE_COVERAGE_CENTER_DEPTHFAIL = Cesium.Color.fromCssColorString('#d7ff8d').withAlpha(0.26);
-const PLANE_OUTLINE_COLOR = Cesium.Color.fromCssColorString('#6be8ff').withAlpha(0.55);
+const PLANE_OUTLINE_COLOR = Cesium.Color.fromCssColorString('#ffc96b').withAlpha(0.55);
 
 // ---------------------------------------------------------------------------
 // Module-scoped mutable state
@@ -444,7 +444,7 @@ export function createCctvProjectionOverlayEntry({ cameraId, name, position }) {
     priority: Number.MAX_SAFE_INTEGER - 1,
     title: String(name || cameraId || 'CAMERA'),
     details: [],
-    accent: '#6be8ff',
+    accent: '#ffc96b',
     interactive: false,
     gapPx: 6,
     verticalOnly: true,
@@ -1513,8 +1513,8 @@ function paintProjectionPlaceholder(ctx, camera, health = null) {
   const h = PROJECTION_CANVAS_HEIGHT;
   ctx.clearRect(0, 0, w, h);
   const g = ctx.createLinearGradient(0, 0, w, h);
-  g.addColorStop(0, '#05111a');
-  g.addColorStop(1, '#01070c');
+  g.addColorStop(0, '#1a1205');
+  g.addColorStop(1, '#0c0801');
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, w, h);
 
@@ -1522,15 +1522,15 @@ function paintProjectionPlaceholder(ctx, camera, health = null) {
   const city = String(camera?.city || 'GLOBAL');
   const status = String(health?.message || health?.status || camera?.feedType || 'NO FEED').toUpperCase();
 
-  ctx.strokeStyle = 'rgba(0, 220, 255, 0.24)';
+  ctx.strokeStyle = 'rgba(255, 162, 0, 0.24)';
   ctx.lineWidth = 2;
   ctx.strokeRect(18, 18, w - 36, h - 36);
   ctx.strokeRect(36, 36, w - 72, h - 72);
 
-  ctx.fillStyle = 'rgba(170, 242, 255, 0.95)';
+  ctx.fillStyle = 'rgba(255, 224, 170, 0.95)';
   ctx.font = '600 32px "JetBrains Mono", monospace';
   ctx.fillText(label.slice(0, 42), 46, 74);
-  ctx.fillStyle = 'rgba(127, 216, 231, 0.8)';
+  ctx.fillStyle = 'rgba(231, 193, 127, 0.8)';
   ctx.font = '500 24px "JetBrains Mono", monospace';
   ctx.fillText(city.toUpperCase(), 46, 112);
   ctx.font = '500 21px "JetBrains Mono", monospace';

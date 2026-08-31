@@ -25,8 +25,8 @@ const MAX_VIEWPORT_DEGREES = 10;
 const MAX_RENDERED = 700;
 const GOOGLE_MILITARY_PLACE_TYPES = new Set(['military_base']);
 const COLOR_BY_CLASS = {
-  airfield: '#5aa9ff',
-  naval_base: '#48c7d5',
+  airfield: '#ffc35a',
+  naval_base: '#d5a148',
   range: '#d9a85d',
   military_land: '#9ca6b0',
   places_candidate: '#c58cff',

@@ -23,9 +23,9 @@ import * as Cesium from 'cesium';
  */
 
 const PALETTE = {
-  primary: '#8be9ff',
+  primary: '#ffd48b',
   amber: '#ffb547',
-  cyan: '#39d0ff',
+  cyan: '#ffb639',
   green: '#5dff9f',
   red: '#ff6b6b',
 };
@@ -243,7 +243,7 @@ export function createWorldAnnotationRenderer(viewer) {
       pixelOffset: new Cesium.Cartesian2(0, -16),
       showBackground: true,
       backgroundColor: new Cesium.CallbackProperty(
-        () => Cesium.Color.fromCssColorString('#0b1622').withAlpha(0.72 * (anno.alpha ?? 1)),
+        () => Cesium.Color.fromCssColorString('#221a0b').withAlpha(0.72 * (anno.alpha ?? 1)),
         false,
       ),
       backgroundPadding: new Cesium.Cartesian2(8, 5),

@@ -239,7 +239,7 @@ const LAUNCH_PAD_ZONE_MAX_CAMERA_HEIGHT_M = 120000;
 const LAUNCH_PAD_ZONE_MAX_CAMERA_DISTANCE_M = 180000;
 
 const TRAJECTORY_STAGE_COLORS = [
-  '#ff9f43', '#ff66c4', '#a78bfa', '#7bed9f', '#ffd166', '#60a5fa',
+  '#ff9f43', '#ff66c4', '#fad18b', '#7bed9f', '#ffd166', '#fac260',
 ];
 
 let _missionOrbitPatternRegistered = false;
@@ -339,7 +339,7 @@ function addMissionOrbitPrimitive(launch, orbitPath, satelliteTrack) {
     positions: orbitPath,
     width: 3,
     material: createMissionOrbitPatternMaterial(
-      Cesium.Color.fromCssColorString('#22e6e6').withAlpha(0.95),
+      Cesium.Color.fromCssColorString('#e69e22').withAlpha(0.95),
     ),
   });
   collection.show = missionOrbitPrimitiveVisible(launch.id);
@@ -519,7 +519,7 @@ export function createRocketMissionMarkerOverlayEntry(launch, position, selected
     variant: 'label',
     title: mission,
     details,
-    accent: '#22e6e6',
+    accent: '#e69e22',
     priority: selected
       ? Number.MAX_SAFE_INTEGER
       : Number.isFinite(launchTimeMs) ? Math.floor(launchTimeMs / 1000) : 0,
@@ -611,10 +611,10 @@ function missionHoverReticleImage() {
   canvas.width = size;
   canvas.height = size;
   const context = canvas.getContext('2d');
-  context.strokeStyle = '#22e6e6';
+  context.strokeStyle = '#e69e22';
   context.lineWidth = 2;
   context.lineCap = 'square';
-  context.shadowColor = 'rgba(34, 230, 230, .72)';
+  context.shadowColor = 'rgba(230, 158, 34, .72)';
   context.shadowBlur = 5;
   context.beginPath();
   context.moveTo(inset, inset + arm);
@@ -1117,7 +1117,7 @@ function createLaunchPadZonePrimitive(launch) {
     fabric: {
       type: 'GevLaunchPadZone',
       uniforms: {
-        color: Cesium.Color.fromCssColorString('#22e6e6'),
+        color: Cesium.Color.fromCssColorString('#e69e22'),
         fillAlpha: 0.105,
         rimAlpha: 0.72,
       },
@@ -2759,15 +2759,15 @@ function updateMissionFrame() {
 export function missionMarkerColor(launch) {
   const identity = `${launch.provider || ''} ${launch.name || ''} ${launch.missionName || ''}`.toLowerCase();
   if (/nasa|national aeronautics/.test(identity)) return Cesium.Color.fromCssColorString('#ff9f43');
-  if (/starlink|spacex|space exploration/.test(identity)) return Cesium.Color.fromCssColorString('#4cc9f0');
+  if (/starlink|spacex|space exploration/.test(identity)) return Cesium.Color.fromCssColorString('#f0b44c');
   if (/rocket lab/.test(identity)) return Cesium.Color.fromCssColorString('#7bed9f');
   if (/isro|indian space/.test(identity)) return Cesium.Color.fromCssColorString('#ff66c4');
   if (/cnsa|china national|long march/.test(identity)) return Cesium.Color.fromCssColorString('#ffd166');
-  if (/blue origin/.test(identity)) return Cesium.Color.fromCssColorString('#a78bfa');
+  if (/blue origin/.test(identity)) return Cesium.Color.fromCssColorString('#fad18b');
   if (/ula|united launch alliance/.test(identity)) return Cesium.Color.fromCssColorString('#f97316');
-  if (/arianespace|esa|european space/.test(identity)) return Cesium.Color.fromCssColorString('#60a5fa');
+  if (/arianespace|esa|european space/.test(identity)) return Cesium.Color.fromCssColorString('#fac260');
   if (launch.provider) return Cesium.Color.fromCssColorString('#c084fc');
-  return Cesium.Color.fromCssColorString('#22e6e6');
+  return Cesium.Color.fromCssColorString('#e69e22');
 }
 
 /**
@@ -3191,7 +3191,7 @@ function addLaunchEntity(launch, activeTleText = _activeTleText) {
         id: `orbit:${launch.id}`,
         position: orbitLabelPosition,
         text: satelliteTrack ? 'ORBIT' : 'PROJECTED ORBIT',
-        accent: satelliteTrack ? '#22e6e6' : '#c084fc',
+        accent: satelliteTrack ? '#e69e22' : '#c084fc',
         priority: 800_000,
         gapPx: 8,
       })

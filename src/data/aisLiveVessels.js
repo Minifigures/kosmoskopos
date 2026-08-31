@@ -72,7 +72,7 @@ const CARD_MIN_SEP_PX = 150;
 /** Number of consecutive refreshes a selected-but-vanished vessel is retained. */
 const SELECTED_PIN_REFRESHES = 3;
 /** Trail hue for the selected vessel (PRD F4, pinned to the AIS teal-green family). */
-const TRAIL_COLOR = '#39ffd5';
+const TRAIL_COLOR = '#ffb639';
 /** Slight lift (m) for trail vertices to avoid sea-surface z-fighting. */
 const TRAIL_HEIGHT_M = 3;
 /**
@@ -1202,7 +1202,7 @@ function shipIcon(record, selected) {
   const key = `${cssColor}:${selected ? 'selected' : 'normal'}`;
   if (shipIconCache.has(key)) return shipIconCache.get(key);
 
-  const stroke = selected ? 'rgba(6,26,32,0.95)' : 'rgba(4,18,24,0.9)';
+  const stroke = selected ? 'rgba(32, 22, 6, 0.95)' : 'rgba(24, 17, 4, 0.9)';
   const strokeWidth = selected ? 1.1 : 0.7;
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
     <g transform="translate(16,16)">

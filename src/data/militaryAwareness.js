@@ -1212,7 +1212,7 @@ function renderVisual(subject) {
       semiMinorAxis: AWARENESS_RADIUS_M,
       fill: false,
       outline: true,
-      outlineColor: Cesium.Color.fromCssColorString('#62b5ff').withAlpha(0.72),
+      outlineColor: Cesium.Color.fromCssColorString('#ffc562').withAlpha(0.72),
       height: CONTEXT_RIM_HEIGHT_M,
     },
   }));

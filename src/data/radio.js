@@ -112,15 +112,15 @@ const CATEGORY_MATCHERS = Object.freeze({
 });
 
 const RADIO_CATEGORY_COLORS = Object.freeze({
-  all: '#b9fbff',
-  news: '#44adff',
+  all: '#ffe5b9',
+  news: '#ffba44',
   talk: '#f2b84b',
   weather: '#ff5c78',
   'public-safety': '#ff8b4a',
-  'aviation-marine': '#a87cff',
+  'aviation-marine': '#ffcf7c',
   'traffic-transit': '#ffd166',
   music: '#54d17a',
-  other: '#9aa7b3',
+  other: '#b3aa9a',
 });
 
 const RADIO_CLUSTER_LABELS = Object.freeze({
@@ -2439,7 +2439,7 @@ function reconcileStations(stations) {
       point: {
         pixelSize: 13,
         color: Cesium.Color.fromCssColorString(markerColor).withAlpha(0.86),
-        outlineColor: Cesium.Color.fromCssColorString('#071b25'),
+        outlineColor: Cesium.Color.fromCssColorString('#251a07'),
         outlineWidth: 1,
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
         scaleByDistance: new Cesium.NearFarScalar(100_000, 1.15, 12_000_000, 1),

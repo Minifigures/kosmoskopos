@@ -27,9 +27,9 @@ import {
 
 const SVGNS = 'http://www.w3.org/2000/svg';
 const PALETTE = {
-  primary: '#8be9ff',
+  primary: '#ffd48b',
   amber: '#ffb547',
-  cyan: '#39d0ff',
+  cyan: '#ffb639',
   green: '#5dff9f',
   red: '#ff6b6b',
 };
@@ -169,7 +169,7 @@ export function createScreenAnnotationRenderer(viewer, {
       ensureArrowMarker(defs, anno.color || 'primary', c);
       group.appendChild(parts.poly);
       parts.dots = anno.path.map(() => {
-        const dot = svgEl('circle', { class: 'gev-anno-dot', fill: c, stroke: '#06121c', 'stroke-width': '2', r: '4' });
+        const dot = svgEl('circle', { class: 'gev-anno-dot', fill: c, stroke: '#1c1406', 'stroke-width': '2', r: '4' });
         group.appendChild(dot);
         return dot;
       });
@@ -183,7 +183,7 @@ export function createScreenAnnotationRenderer(viewer, {
         group.appendChild(parts.ringOuter);
         group.appendChild(parts.ringInner);
       }
-      parts.dot = svgEl('circle', { class: 'gev-anno-dot', fill: c, stroke: '#06121c', 'stroke-width': '2', r: anno.type === 'label' ? '4' : '5' });
+      parts.dot = svgEl('circle', { class: 'gev-anno-dot', fill: c, stroke: '#1c1406', 'stroke-width': '2', r: anno.type === 'label' ? '4' : '5' });
       group.appendChild(parts.dot);
       parts.leader = svgEl('line', { class: 'gev-anno-leader', stroke: c, 'stroke-width': '1.5', 'stroke-opacity': '0.7' });
       group.appendChild(parts.leader);
@@ -656,8 +656,8 @@ function injectStyles() {
   .gev-anno-area { filter: drop-shadow(0 0 5px currentColor); }
   .gev-anno-arrow { filter: drop-shadow(0 0 4px currentColor); stroke-linecap: round; }
   .gev-anno-leader { stroke-dasharray: 2 3; }
-  .gev-anno-card { fill: rgba(8,18,28,0.78); stroke: rgba(255,255,255,0.14); stroke-width: 1; }
-  .gev-anno-text { fill: #eaf6ff; font: 600 13px "JetBrains Mono", ui-monospace, monospace; letter-spacing: 0.02em; }
+  .gev-anno-card { fill: rgba(28, 21, 8, 0.78); stroke: rgba(255,255,255,0.14); stroke-width: 1; }
+  .gev-anno-text { fill: #fff7ea; font: 600 13px "JetBrains Mono", ui-monospace, monospace; letter-spacing: 0.02em; }
   /* draw-on: outlined shapes reveal their stroke */
   .gev-draw { stroke-dasharray: 1400; stroke-dashoffset: 1400; }
   .gev-anno.gev-in .gev-draw { transition: stroke-dashoffset 900ms ease-out; stroke-dashoffset: 0; }

@@ -11,7 +11,7 @@ import * as Cesium from 'cesium';
  */
 
 const API_URL = '/api/toronto-cool';
-const COOL = Cesium.Color.fromCssColorString('#38d6ff');
+const COOL = Cesium.Color.fromCssColorString('#ffb638');
 
 function createTorontoCoolLayer() {
   let _ds = null;

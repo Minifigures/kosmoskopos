@@ -20,12 +20,12 @@ export const VESSEL_CARD_FADE_DISTANCE_M = 5_000_000;
  */
 const TYPE_STYLES = [
   { pattern: /tanker/i, css: '#ffb347', accent: '255, 179, 71' },
-  { pattern: /cargo|container|bulk|carrier/i, css: '#39d5ff', accent: '57, 213, 255' },
+  { pattern: /cargo|container|bulk|carrier/i, css: '#ffb639', accent: '57, 213, 255' },
   { pattern: /passenger|ferry|cruise/i, css: '#ff7adf', accent: '255, 122, 223' },
   { pattern: /fishing/i, css: '#7cff9b', accent: '124, 255, 155' },
   { pattern: /tug|tow|pilot|supply|service/i, css: '#f7f0a3', accent: '247, 240, 163' },
 ];
-const DEFAULT_STYLE = { css: '#39d5ff', accent: '57, 213, 255' };
+const DEFAULT_STYLE = { css: '#ffb639', accent: '57, 213, 255' };
 
 const NUMERIC_TYPE_SPECIALS = {
   30: 'FISHING', 31: 'TOWING', 32: 'TOWING', 33: 'DREDGER', 34: 'DIVE OPS',

@@ -720,7 +720,7 @@ export function paintTracked(ctx, entry, placement, alpha = 1) {
  * This is the LEGIBILITY-CRITICAL painter. It runs on the shared normal-blend
  * canvas rather than the screen-blended sensor surface, because `screen` can
  * only lighten: a dark plate composited with `screen` over sunlit imagery
- * resolves to the imagery itself (measured: rgba(2,18,26,0.66) over rgb(230)
+ * resolves to the imagery itself (measured: rgba(26, 17, 2, 0.66) over rgb(230)
  * yields rgb(230,231,232)), which is why ambient callsigns used to dissolve
  * into bright ground while the tracked card — always painted on this same
  * normal-blend canvas — stayed readable in every style.

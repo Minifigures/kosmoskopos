@@ -18,8 +18,8 @@ const landingPointUrl = new URL(
   import.meta.url,
 ).href;
 
-const BASE_CABLE_COLOR = '#39d5ff';
-const BASE_LANDING_COLOR = '#8fffd2';
+const BASE_CABLE_COLOR = '#ffb639';
+const BASE_LANDING_COLOR = '#ffd68f';
 const STEM_TARGET_PX = 66;
 const CABLE_REFERENCE_LABEL_MAX_DISTANCE_M = 9000000;
 /** Bounded nearest-visible cohort the layer offers the shared host. */

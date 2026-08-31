@@ -14,7 +14,7 @@ const datacenters = createLocalGeoJsonLayer({
   id: 'local-datacenters',
   url: datacentersUrl,
   name: 'Datacenters',
-  color: '#00ffff', // Cyan
+  color: '#ffa200', // Cyan
   icon: '▣',
   source: 'Local',
   labels: true,
@@ -26,7 +26,7 @@ const dams = createLocalGeoJsonLayer({
   id: 'local-dams',
   url: damsUrl,
   name: 'Dams',
-  color: '#0088ff', // Blue
+  color: '#ffa200', // Blue
   icon: '▰',
   source: 'USACE',
   labels: true,

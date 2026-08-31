@@ -62,13 +62,13 @@ const MAX_TOTAL_POINTS = 8000;
 
 // --- Availability color palette ---
 /** Station has >60% bikes available. */
-const COLOR_GREEN = Cesium.Color.fromCssColorString('#00ff88').withAlpha(0.95);
+const COLOR_GREEN = Cesium.Color.fromCssColorString('#ffa200').withAlpha(0.95);
 /** Station has 30-60% bikes available. */
 const COLOR_YELLOW = Cesium.Color.fromCssColorString('#ffaa00').withAlpha(0.94);
 /** Station has <30% bikes available. */
 const COLOR_RED = Cesium.Color.fromCssColorString('#ff4444').withAlpha(0.94);
 /** No status data available for station. */
-const COLOR_NEUTRAL = Cesium.Color.fromCssColorString('#91a4b4').withAlpha(0.62);
+const COLOR_NEUTRAL = Cesium.Color.fromCssColorString('#b4a791').withAlpha(0.62);
 /** Station is offline (not installed, not renting, or not returning). */
 const COLOR_MUTED = Cesium.Color.fromCssColorString('#687581').withAlpha(0.48);
 /** Outline color for all station points. */
@@ -118,6 +118,16 @@ function bcycleEntry({ id, city, centerLat, centerLon, systemId, loadRadiusKm = 
  * @type {Object[]}
  */
 const RAW_GBFS_CITY_REGISTRY = [
+  {
+    id: 'toronto-bikeshare',
+    city: 'Toronto, ON',
+    centerLat: 43.6532,
+    centerLon: -79.3832,
+    loadRadiusKm: 45,
+    stationInformationUrl: 'https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_information.json',
+    stationStatusUrl: 'https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_status.json',
+    provider: 'Bike Share Toronto',
+  },
   {
     id: 'nyc-citibike',
     city: 'New York, NY',
@@ -1004,7 +1014,7 @@ export function createBikeshareSelectedOverlayEntry(key, record) {
     priority: Number.MAX_SAFE_INTEGER,
     title,
     details,
-    accent: '#00ffff',
+    accent: '#ffa200',
     interactive: false,
     anchorRadiusPx: 9,
     minAnchorGapPx: 11,
