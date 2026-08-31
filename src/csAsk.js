@@ -72,20 +72,42 @@ function gatherContext() {
 
 const SYS = 'You are KosmoSkopos Duty Officer, a calm, precise spatial-intelligence analyst for a live humanitarian 3D globe of Earth built from public data (aircraft, vessels, satellites, earthquakes, active fires, weather, live disaster alerts). Answer using ONLY the live map context plus general knowledge. Be concise: 2-4 sentences, direct answer first. Do not invent specific live values not in the context. This is open-source situational awareness for disaster response, not surveillance of individuals.';
 
-async function askServer(question, context, els) {
-  const response = await fetch('/api/analyst', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ question, context }),
-  });
-  const data = await response.json().catch(() => ({}));
-  if (response.ok && data.answer) {
+async function askServer(question, context, els, attempt = 0) {
+  let response = null;
+  let data = {};
+  try {
+    response = await fetch('/api/analyst', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question, context }),
+    });
+    data = await response.json().catch(() => ({}));
+  } catch {
+    // Network error: the free-tier server is very likely still cold-starting.
+    response = null;
+  }
+  if (response && response.ok && data.answer) {
     els.answer.textContent = data.answer;
     els.badge.textContent = `${data.provider || 'ai'}${data.model ? ' · ' + data.model : ''}${data.degraded ? ' · fallback' : ''}`;
     els.status.hidden = true;
-  } else {
-    els.status.textContent = data.error || `analyst error (${response.status})`;
+    return;
   }
+  // Free-tier cold start: the deployment spins down when idle and boots for
+  // ~40-50s, returning 502/503/504 (or a dropped connection) during boot. Show
+  // a friendly "booting up" status and auto-retry rather than a raw error, so
+  // the answer appears on its own once the server is warm.
+  const status = response ? response.status : 0;
+  const bootLike = !response || status === 502 || status === 503 || status === 504;
+  if (bootLike && attempt < 4) {
+    els.status.hidden = false;
+    els.status.textContent = `Duty Officer is booting up (free-tier cold start)… warming up${'.'.repeat(attempt % 3 + 1)}`;
+    await new Promise((r) => setTimeout(r, 6000));
+    return askServer(question, context, els, attempt + 1);
+  }
+  els.status.hidden = false;
+  els.status.textContent = bootLike
+    ? 'Still booting up — give it a few more seconds and ask again.'
+    : (data.error || `analyst error (${status})`);
 }
 
 async function askPrivate(question, context, els) {
@@ -134,7 +156,7 @@ async function ask(question, els) {
 }
 
 const STYLE = `
-#cs-ask{position:fixed;right:20px;bottom:132px;z-index:9000;font-family:'JetBrains Mono',ui-monospace,monospace;}
+#cs-ask{position:fixed;left:20px;bottom:132px;z-index:9000;font-family:'JetBrains Mono',ui-monospace,monospace;}
 #cs-ask .cs-pill{display:flex;align-items:center;gap:8px;cursor:pointer;padding:9px 14px;border:1px solid rgba(244, 183, 64,.5);border-radius:20px;background:rgba(20, 15, 4, .86);color:#f4b740;font-size:12px;letter-spacing:.14em;text-transform:uppercase;backdrop-filter:blur(6px);box-shadow:0 0 18px rgba(244, 183, 64,.16);transition:border-color .2s,box-shadow .2s;}
 #cs-ask .cs-pill:hover{border-color:#f4b740;box-shadow:0 0 26px rgba(244, 183, 64,.34);}
 #cs-ask .cs-pill .cs-eye{font-size:14px;}
@@ -148,7 +170,7 @@ const STYLE = `
 #cs-ask .cs-close{cursor:pointer;color:#e6c78a;background:none;border:none;font-size:15px;line-height:1;padding:2px 4px;}
 #cs-ask .cs-close:hover{color:#fff;}
 #cs-ask .cs-body{padding:12px;display:flex;flex-direction:column;gap:10px;}
-#cs-ask .cs-answer{min-height:20px;max-height:34vh;overflow-y:auto;color:#fbf5e7;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;line-height:1.5;white-space:pre-wrap;}
+#cs-ask .cs-answer{min-height:20px;max-height:30vh;overflow-y:auto;color:#fbf5e7;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;line-height:1.5;white-space:pre-wrap;}
 #cs-ask .cs-status{color:#e6c78a;font-size:11.5px;font-style:italic;}
 #cs-ask .cs-badge{color:#ad8b3a;font-size:10px;letter-spacing:.1em;text-transform:uppercase;}
 #cs-ask .cs-inrow{display:flex;gap:8px;align-items:flex-end;}
@@ -161,11 +183,11 @@ const STYLE = `
 #cs-ask .cs-chips{display:flex;flex-wrap:wrap;gap:6px;}
 #cs-ask .cs-chip{cursor:pointer;border:1px solid rgba(244, 183, 64,.28);border-radius:12px;background:rgba(0,0,0,.25);color:#ead39f;font-size:10.5px;padding:4px 8px;}
 #cs-ask .cs-chip:hover{border-color:#f4b740;color:#fbf5e7;}
-@media (max-width:640px){#cs-ask{right:10px;bottom:96px;}}
+@media (max-width:640px){#cs-ask{left:10px;bottom:96px;}}
 /* --- polish pass: entrance, accent line, tactile controls --- */
 #cs-ask .cs-pill{transition:border-color .2s,box-shadow .2s,transform .2s;}
 #cs-ask .cs-pill:hover{transform:translateY(-1px);}
-#cs-ask .cs-panel{position:relative;transform-origin:bottom right;}
+#cs-ask .cs-panel{position:relative;transform-origin:bottom left;max-height:min(58vh,calc(100vh - 170px));}
 #cs-ask .cs-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(244,183,64,.75),transparent);pointer-events:none;z-index:1;}
 #cs-ask.cs-open .cs-panel{animation:csIn .24s cubic-bezier(.2,.8,.2,1);}
 @keyframes csIn{from{opacity:0;transform:translateY(8px) scale(.985);}to{opacity:1;transform:translateY(0) scale(1);}}
