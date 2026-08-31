@@ -10,7 +10,7 @@
 // Reply (JSON): { answer, provider, model, degraded } or { error, details }
 
 const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
-const GROQ_MODEL = process.env.GROQ_MODEL || 'llama-3.3-70b-versatile';
+const GROQ_MODEL = process.env.GROQ_MODEL || 'qwen/qwen3.8-27b';
 const REQUEST_TIMEOUT_MS = 25_000;
 const MAX_BODY_BYTES = 64 * 1024;
 // Optional local free model (llama-cpp-python / Ollama, OpenAI-compatible server).

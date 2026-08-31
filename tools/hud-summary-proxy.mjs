@@ -6,7 +6,7 @@
 // first to spare cloud quota, then Gemini, then Groq. Keys stay server-side.
 
 const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
-const GROQ_MODEL = process.env.GROQ_MODEL || 'llama-3.3-70b-versatile';
+const GROQ_MODEL = process.env.GROQ_MODEL || 'qwen/qwen3.8-27b';
 const LOCAL_LLM_URL = (process.env.LOCAL_LLM_URL || '').replace(/\/$/, '');
 const LOCAL_LLM_MODEL = process.env.LOCAL_LLM_MODEL || 'local';
 
@@ -46,7 +46,26 @@ async function callGemini(sys, user, key, signal) {
 }
 
 function tidy(text) {
-  return String(text).replace(/["'\n\r.]/g, ' ').trim().toUpperCase().split(/\s+/).filter(Boolean).slice(0, 6).join(' ');
+  // Strip any chain-of-thought a reasoning model might emit, then normalize.
+  const clean = String(text).replace(/<think>[\s\S]*?<\/think>/gi, ' ').replace(/["'\n\r.]/g, ' ');
+  return clean.trim().toUpperCase().split(/\s+/).filter(Boolean).slice(0, 6).join(' ');
+}
+
+// Never-fail fallback: build a terse HUD line straight from the scene context
+// (no model needed) so the HUD always has something sensible even when every
+// free AI provider is rate-limited or offline.
+function ruleBasedHud(ctx) {
+  try {
+    const loc = String(ctx?.location || ctx?.place || ctx?.region || ctx?.basemap || '').trim();
+    let layers = ctx?.layers || ctx?.enabledLayers || ctx?.activeLayers || [];
+    if (!Array.isArray(layers)) layers = [];
+    const names = layers.map((l) => (typeof l === 'string' ? l : (l?.name || l?.id || ''))).filter(Boolean);
+    const parts = [];
+    if (names.length) parts.push('MONITORING', String(names.length), names.length === 1 ? 'LIVE LAYER' : 'LIVE LAYERS');
+    else parts.push('GLOBAL', 'WATCH', 'ACTIVE');
+    if (loc) parts.push('OVER', loc);
+    return tidy(parts.join(' ')) || 'GLOBAL WATCH ALL SYSTEMS NOMINAL';
+  } catch { return 'GLOBAL WATCH ALL SYSTEMS NOMINAL'; }
 }
 
 export function hudSummaryProxy() {
@@ -69,9 +88,10 @@ export function hudSummaryProxy() {
         if (!summary && groqKey) { try { summary = await chatOpenAI('https://api.groq.com/openai', GROQ_MODEL, { Authorization: `Bearer ${groqKey}` }, SYS, user, controller.signal); } catch { /* fall through */ } }
         if (!summary && LOCAL_LLM_URL) { try { summary = await chatOpenAI(LOCAL_LLM_URL, LOCAL_LLM_MODEL, {}, SYS, user, controller.signal); } catch { /* fall through */ } }
         clearTimeout(timeout);
-        if (summary) return send(200, { summary: tidy(summary) });
-        return send(502, { error: 'no free summary provider available' });
-      } catch (e) { clearTimeout(timeout); return send(502, { error: e?.message || 'summary failed' }); }
+        if (summary) return send(200, { summary: tidy(summary), degraded: false });
+        // Every free provider missed (quota / offline): degrade gracefully, never error.
+        return send(200, { summary: ruleBasedHud(ctx), degraded: true });
+      } catch { clearTimeout(timeout); return send(200, { summary: ruleBasedHud(ctx), degraded: true }); }
     });
   }
   return { name: 'kosmoskopos-hud-summary-proxy', configureServer(s) { install(s.middlewares); }, configurePreviewServer(s) { install(s.middlewares); } };
