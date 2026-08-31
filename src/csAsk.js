@@ -162,6 +162,18 @@ const STYLE = `
 #cs-ask .cs-chip{cursor:pointer;border:1px solid rgba(244, 183, 64,.28);border-radius:12px;background:rgba(0,0,0,.25);color:#ead39f;font-size:10.5px;padding:4px 8px;}
 #cs-ask .cs-chip:hover{border-color:#f4b740;color:#fbf5e7;}
 @media (max-width:640px){#cs-ask{right:10px;bottom:96px;}}
+/* --- polish pass: entrance, accent line, tactile controls --- */
+#cs-ask .cs-pill{transition:border-color .2s,box-shadow .2s,transform .2s;}
+#cs-ask .cs-pill:hover{transform:translateY(-1px);}
+#cs-ask .cs-panel{position:relative;transform-origin:bottom right;}
+#cs-ask .cs-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(244,183,64,.75),transparent);pointer-events:none;z-index:1;}
+#cs-ask.cs-open .cs-panel{animation:csIn .24s cubic-bezier(.2,.8,.2,1);}
+@keyframes csIn{from{opacity:0;transform:translateY(8px) scale(.985);}to{opacity:1;transform:translateY(0) scale(1);}}
+#cs-ask .cs-send{transition:background .2s,box-shadow .2s;box-shadow:0 0 14px rgba(244,183,64,.1);}
+#cs-ask .cs-send:hover:not(:disabled){box-shadow:0 0 20px rgba(244,183,64,.3);}
+#cs-ask .cs-chip{transition:border-color .15s,color .15s,transform .15s,background .15s;}
+#cs-ask .cs-chip:hover{background:rgba(244,183,64,.1);transform:translateY(-1px);}
+#cs-ask .cs-answer{scrollbar-width:thin;scrollbar-color:rgba(244,183,64,.4) transparent;}
 `;
 
 const SUGGESTIONS = [
