@@ -1,4 +1,4 @@
-// Kosmoskopos — "Ask the planet" analyst widget.
+// KosmoSkopos — "Ask the planet" analyst widget.
 //
 // Lets the operator ask the free-AI Duty Officer about the live globe. Two modes:
 //  - Default: POST /api/analyst (server-side Gemini -> Groq -> local -> rule-based
@@ -70,7 +70,7 @@ function gatherContext() {
   return ctx;
 }
 
-const SYS = 'You are Kosmoskopos Duty Officer, a calm, precise spatial-intelligence analyst for a live humanitarian 3D globe of Earth built from public data (aircraft, vessels, satellites, earthquakes, active fires, weather, live disaster alerts). Answer using ONLY the live map context plus general knowledge. Be concise: 2-4 sentences, direct answer first. Do not invent specific live values not in the context. This is open-source situational awareness for disaster response, not surveillance of individuals.';
+const SYS = 'You are KosmoSkopos Duty Officer, a calm, precise spatial-intelligence analyst for a live humanitarian 3D globe of Earth built from public data (aircraft, vessels, satellites, earthquakes, active fires, weather, live disaster alerts). Answer using ONLY the live map context plus general knowledge. Be concise: 2-4 sentences, direct answer first. Do not invent specific live values not in the context. This is open-source situational awareness for disaster response, not surveillance of individuals.';
 
 async function askServer(question, context, els) {
   const response = await fetch('/api/analyst', {
@@ -171,11 +171,11 @@ const SUGGESTIONS = [
 ];
 
 /**
- * Mount the Ask Kosmoskopos widget.
+ * Mount the Ask KosmoSkopos widget.
  * @param {Cesium.Viewer} viewer
  * @param {object} dataManager DataLayerManager (for active-layer context)
  */
-export function initKosmoskoposAsk(viewer, dataManager) {
+export function initKosmoSkoposAsk(viewer, dataManager) {
   _viewer = viewer;
   _dataManager = dataManager;
   if (document.getElementById('cs-ask')) return;
@@ -187,10 +187,10 @@ export function initKosmoskoposAsk(viewer, dataManager) {
   const root = document.createElement('div');
   root.id = 'cs-ask';
   root.innerHTML = `
-    <div class="cs-pill" role="button" tabindex="0" aria-label="Ask Kosmoskopos">
-      <span class="cs-eye">◈</span><span>Ask Kosmoskopos</span>
+    <div class="cs-pill" role="button" tabindex="0" aria-label="Ask KosmoSkopos">
+      <span class="cs-eye">◈</span><span>Ask KosmoSkopos</span>
     </div>
-    <div class="cs-panel" role="dialog" aria-label="Ask Kosmoskopos">
+    <div class="cs-panel" role="dialog" aria-label="Ask KosmoSkopos">
       <div class="cs-head">
         <span>◈ Duty Officer</span>
         <span class="cs-head-actions">

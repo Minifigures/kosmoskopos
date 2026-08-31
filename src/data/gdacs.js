@@ -7,7 +7,7 @@ import * as Cesium from 'cesium';
  * tropical cyclones, floods, volcanoes, droughts and wildfires that are active
  * RIGHT NOW, fetched keyless through the same-origin /api/gdacs proxy. Each
  * event is a clamped point + label, colored by alert level (Red = severe).
- * This is the headline "live crises" layer for Kosmoskopos.
+ * This is the headline "live crises" layer for KosmoSkopos.
  */
 
 const API_URL = '/api/gdacs';

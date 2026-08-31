@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌐 Kosmoskopos
+# 🌐 KosmoSkopos
 
 ### An eye on every crisis.
 
@@ -12,9 +12,9 @@ A real-time humanitarian **crisis map**: a photorealistic 3D Earth that fuses li
 
 ---
 
-## Why Kosmoskopos
+## Why KosmoSkopos
 
-When a disaster hits, the signals are already public — seismographs, storm trackers, fire satellites, city open-data — but they live in a dozen disconnected dashboards. Kosmoskopos turns those public signals into a **place**: one photorealistic globe where you can *see* every active crisis at once, ask an AI analyst what's happening, and zoom from the whole planet down to the nearest cooling centre. No classified data, no paid APIs — **open signal all the way down.**
+When a disaster hits, the signals are already public — seismographs, storm trackers, fire satellites, city open-data — but they live in a dozen disconnected dashboards. KosmoSkopos turns those public signals into a **place**: one photorealistic globe where you can *see* every active crisis at once, ask an AI analyst what's happening, and zoom from the whole planet down to the nearest cooling centre. No classified data, no paid APIs — **open signal all the way down.**
 
 ## What it does
 
@@ -38,7 +38,7 @@ When a disaster hits, the signals are already public — seismographs, storm tra
 
 ## Architecture
 
-Kosmoskopos is a **single Vite app with no separate backend** — every server responsibility (CORS shims, API-key custody, caching, rate-limiting) is handled by same-origin Node middleware that ships inside the Vite config, so the whole system builds to static assets plus a thin proxy layer.
+KosmoSkopos is a **single Vite app with no separate backend** — every server responsibility (CORS shims, API-key custody, caching, rate-limiting) is handled by same-origin Node middleware that ships inside the Vite config, so the whole system builds to static assets plus a thin proxy layer.
 
 ```mermaid
 flowchart LR
@@ -84,7 +84,7 @@ The globe renders free with just a Cesium ion token. Every other layer degrades 
 
 ## Data sources & attribution
 
-Kosmoskopos uses only public, openly-licensed data. In-app attribution is shown on the globe's credit line (Google / Cesium ion, required) and in the expandable **Data attribution** panel: GDACS (JRC / UN OCHA), NOAA National Hurricane Center (public domain), NASA FIRMS, USGS (public domain), City of Toronto Open Data, © OpenStreetMap contributors (ODbL), and others. Each provider retains its own terms.
+KosmoSkopos uses only public, openly-licensed data. In-app attribution is shown on the globe's credit line (Google / Cesium ion, required) and in the expandable **Data attribution** panel: GDACS (JRC / UN OCHA), NOAA National Hurricane Center (public domain), NASA FIRMS, USGS (public domain), City of Toronto Open Data, © OpenStreetMap contributors (ODbL), and others. Each provider retains its own terms.
 
 ## License
 
@@ -94,6 +94,6 @@ Code: [MIT](LICENSE). Third-party data and visual assets keep their own licenses
 
 <div align="center">
 
-**Kosmoskopos — every crisis, on one living globe.**
+**KosmoSkopos — every crisis, on one living globe.**
 
 </div>

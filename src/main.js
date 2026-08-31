@@ -35,7 +35,7 @@ import {
 } from './renderGovernor.js';
 import { installScopeMask } from './scopeMask.js';
 import { initFirstRunExperience } from './firstRunExperience.js';
-import { initKosmoskoposAsk } from './csAsk.js';
+import { initKosmoSkoposAsk } from './csAsk.js';
 
 initLogoGaze();
 
@@ -83,7 +83,7 @@ async function init() {
       Cesium.Ion.defaultAccessToken = cesiumToken;
     }
 
-    // Google Maps key is OPTIONAL in Kosmoskopos. Upstream hard-required it, but Kosmoskopos
+    // Google Maps key is OPTIONAL in KosmoSkopos. Upstream hard-required it, but KosmoSkopos
     // runs fully free: Google Photorealistic 3D Tiles stream THROUGH Cesium ion
     // (no Google Cloud billing), and with no token at all it falls back to a
     // keyless OSM 3D globe stack. Only wire Google when a key is actually set.
@@ -241,7 +241,7 @@ async function init() {
     // terrain + raster imagery) is an untested branch that fails to tessellate
     // here, leaving a black globe. When there is no photoreal tileset AND no ion
     // token, force a flat EllipsoidTerrainProvider (always renders, zero network)
-    // and attach a keyless satellite basemap directly, so Kosmoskopos shows a real
+    // and attach a keyless satellite basemap directly, so KosmoSkopos shows a real
     // Earth with no keys at all. With a Cesium ion token the tested ion/photoreal
     // stacks run instead and this block is skipped.
     if (!tileset && !cesiumToken) {
@@ -323,9 +323,9 @@ async function init() {
     // Initialize the voice "whiteboard" annotation engine (world-space renderer)
     const annotations = initAnnotations({ viewer, tileset });
 
-    // Kosmoskopos "Ask the planet" analyst widget — free-AI Duty Officer over
+    // KosmoSkopos "Ask the planet" analyst widget — free-AI Duty Officer over
     // /api/analyst (Gemini -> Groq), reading live camera + layer context.
-    initKosmoskoposAsk(viewer, dataManager);
+    initKosmoSkoposAsk(viewer, dataManager);
 
     // Keep startup chrome truthful: a share is not restored until camera,
     // visual/map/panel lanes, and every requested layer have terminated.
@@ -406,7 +406,7 @@ async function init() {
     window.__godsEyeView.voiceCommands = initGevVoiceCommands({ viewer, styleManager, dataManager, sceneDirector, annotations });
 
   } catch (error) {
-    console.error("Kosmoskopos initialization failed:", error);
+    console.error("KosmoSkopos initialization failed:", error);
     loaderStatus.textContent = `Error: ${describeError(error)}`;
     loaderStatus.style.color = '#ff4444';
   }

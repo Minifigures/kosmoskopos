@@ -489,7 +489,7 @@ const SHARPEN_SHADER = /* glsl */ `
 `;
 
 /**
- * Central UI orchestrator for the Kosmoskopos application.
+ * Central UI orchestrator for the KosmoSkopos application.
  *
  * Responsibilities:
  * - CesiumJS PostProcessStage pipeline: registers per-style GLSL stages

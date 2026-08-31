@@ -1454,7 +1454,7 @@ function onCameraChanged() {
 }
 
 /**
- * Bikeshare data layer object, conforming to the Kosmoskopos layer interface.
+ * Bikeshare data layer object, conforming to the KosmoSkopos layer interface.
  * Manages lifecycle (init/enable/disable/update) and provides detection and
  * stats hooks for the HUD and UI systems.
  * @type {Object}

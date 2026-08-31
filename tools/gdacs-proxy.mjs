@@ -23,7 +23,7 @@ async function refresh() {
     const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
     try {
       const r = await fetch(GDACS_URL, {
-        headers: { Accept: 'application/json', 'User-Agent': 'Kosmoskopos/1.0 (hackathon; humanitarian)' },
+        headers: { Accept: 'application/json', 'User-Agent': 'KosmoSkopos/1.0 (hackathon; humanitarian)' },
         signal: controller.signal,
       });
       if (!r.ok) throw new Error(`GDACS HTTP ${r.status}`);
