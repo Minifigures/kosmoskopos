@@ -2,7 +2,7 @@
   "name": "crisisscape",
   "private": true,
   "version": "0.1.0",
-  "description": "CrisisScape — a live humanitarian watch over the whole planet: a photorealistic 3D globe fusing public data (aircraft, vessels, satellites, earthquakes, active fires, weather, disaster alerts) with a voice AI analyst, for situational awareness and disaster response.",
+  "description": "CrisisScape \u2014 a live humanitarian watch over the whole planet: a photorealistic 3D globe fusing public data (aircraft, vessels, satellites, earthquakes, active fires, weather, disaster alerts) with a voice AI analyst, for situational awareness and disaster response.",
   "type": "module",
   "license": "MIT",
   "author": "Marco Ayuste",
@@ -31,7 +31,8 @@
     "preview": "vite preview",
     "test": "node scripts/run-unit-tests.mjs",
     "test:track": "node scripts/track-regression.mjs",
-    "qa:map-source-tray": "node scripts/qa-map-source-tray.mjs"
+    "qa:map-source-tray": "node scripts/qa-map-source-tray.mjs",
+    "start": "vite"
   },
   "dependencies": {
     "@mapbox/vector-tile": "^3.0.0",

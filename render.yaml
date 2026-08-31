@@ -1,0 +1,27 @@
+# CrisisScape — Render blueprint (free web service running the Vite server with
+# its same-origin /api proxies). Secret keys are set in the Render dashboard
+# (sync:false); all are FREE-tier with no billing.
+services:
+  - type: web
+    name: crisisscape
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      - key: NODE_VERSION
+        value: 24.14.0
+      - key: ANALYST_RATELIMIT_PER_MIN
+        value: "15"
+      - key: CESIUM_ION_TOKEN
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: FIRMS_MAP_KEY
+        sync: false
+      - key: AISSTREAM_API_KEY
+        sync: false
