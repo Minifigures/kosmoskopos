@@ -36,6 +36,40 @@ When a disaster hits, the signals are already public — seismographs, storm tra
 | **Live data** | GDACS · NOAA NHC · NASA FIRMS · USGS · City of Toronto Open Data · OpenStreetMap (Nominatim geocoding) |
 | **App** | Vanilla ES modules + Vite; same-origin Node proxies for CORS/keys; keys stay server-side |
 
+## Architecture
+
+Kosmoskopos is a **single Vite app with no separate backend** — every server responsibility (CORS shims, API-key custody, caching, rate-limiting) is handled by same-origin Node middleware that ships inside the Vite config, so the whole system builds to static assets plus a thin proxy layer.
+
+```mermaid
+flowchart LR
+  subgraph Browser
+    G[CesiumJS globe<br/>Google 3D Tiles]
+    L[Pluggable data layers]
+    W[WebLLM<br/>in-browser WebGPU AI]
+  end
+  subgraph Same-origin proxies
+    P[/api/* : CORS + keys + cache/]
+  end
+  subgraph Free public sources
+    D[GDACS - NHC - FIRMS - USGS]
+    O[Toronto / OSM open data]
+    A[Gemini - Groq free tiers]
+  end
+  L --- P
+  P --> D
+  P --> O
+  P --> A
+  W -. private, on-device .-> L
+```
+
+**Pluggable layers.** Each live layer (disasters, hurricanes, heat relief, bike share, and more) is a self-contained factory implementing one lifecycle contract (`init / enable / disable / update / destroy`) over a Cesium `CustomDataSource`, registered in a single layer registry. Adding a data source is one file plus one registry entry.
+
+**Resilient free-AI.** The "Duty Officer" analyst runs a fallback chain (Gemini, then Groq, then an optional local model, then a deterministic rule-based SITREP) so a rate-limited or offline provider degrades quietly instead of failing. A one-toggle **private mode** runs the model entirely in the visitor's browser via WebGPU (WebLLM), with zero server cost.
+
+**Key custody and cost safety.** No API key ever reaches the browser; keys live only in the server-side proxies, every provider is a free tier or runs locally, and slow feeds (such as GDACS) are pre-warmed and cached server-side so no visitor waits on a cold upstream.
+
+**Deploy.** `vite build` produces the static bundle; `vite preview` serves it together with the `/api` proxies on a single Render free-tier web service.
+
 ## Quick start
 
 ```bash
