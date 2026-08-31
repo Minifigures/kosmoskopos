@@ -1,7 +1,7 @@
 /**
  * @module cctv
  *
- * CCTV camera data layer for CrisisScape.
+ * CCTV camera data layer for Kosmoskopos.
  *
  * Architecture:
  * - Camera catalog: built from seed definitions (CAMERA_SEEDS) merged with live

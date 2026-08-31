@@ -1,13 +1,16 @@
-# CrisisScape — Render blueprint (free web service running the Vite server with
-# its same-origin /api proxies). Secret keys are set in the Render dashboard
+# Kosmoskopos — Render blueprint (free web service serving the production build
+# with its same-origin /api proxies). Secret keys are set in the Render dashboard
 # (sync:false); all are FREE-tier with no billing.
 services:
   - type: web
-    name: crisisscape
+    name: kosmoskopos
     runtime: node
     plan: free
-    buildCommand: npm install --omit=dev
-    startCommand: npm start
+    # Build the production bundle at build time (the builder has far more memory
+    # than the free instance) and serve it with `vite preview`. Running the Vite
+    # dev server in production exceeded the 512MB free-tier limit and OOM-looped.
+    buildCommand: npm install --omit=dev && npm run build
+    startCommand: npm run preview
     envVars:
       - key: HOST
         value: 0.0.0.0

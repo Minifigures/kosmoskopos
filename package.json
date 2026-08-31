@@ -1,8 +1,8 @@
 {
-  "name": "crisisscape",
+  "name": "kosmoskopos",
   "private": true,
   "version": "0.1.0",
-  "description": "CrisisScape — a live humanitarian watch over the whole planet: a photorealistic 3D globe fusing public data (aircraft, vessels, satellites, earthquakes, active fires, weather, disaster alerts) with a voice AI analyst, for situational awareness and disaster response.",
+  "description": "Kosmoskopos \u2014 a live humanitarian watch over the whole planet: a photorealistic 3D globe fusing public data (aircraft, vessels, satellites, earthquakes, active fires, weather, disaster alerts) with a voice AI analyst, for situational awareness and disaster response.",
   "type": "module",
   "license": "MIT",
   "author": "Marco Ayuste",
@@ -43,11 +43,11 @@
     "pbf": "^5.1.2",
     "satellite.js": "^6.0.2",
     "vite": "^6.0.0",
-    "vite-plugin-cesium": "^1.2.23"
+    "vite-plugin-cesium": "^1.2.23",
+    "ws": "^8.21.0"
   },
   "devDependencies": {
     "puppeteer": "^24.37.5",
-    "sharp": "^0.34.5",
-    "ws": "^8.21.0"
+    "sharp": "^0.34.5"
   }
 }

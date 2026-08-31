@@ -7,7 +7,7 @@ import * as Cesium from 'cesium';
  * heat event these libraries, community centres, pools and malls are where
  * vulnerable residents can cool off. Each is a clamped marker + label; labels
  * only surface when zoomed into the city so the global view stays clean. This
- * is CrisisScape's hyperlocal social-good layer.
+ * is Kosmoskopos's hyperlocal social-good layer.
  */
 
 const API_URL = '/api/toronto-cool';

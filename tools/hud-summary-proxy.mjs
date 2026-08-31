@@ -74,5 +74,5 @@ export function hudSummaryProxy() {
       } catch (e) { clearTimeout(timeout); return send(502, { error: e?.message || 'summary failed' }); }
     });
   }
-  return { name: 'crisisscape-hud-summary-proxy', configureServer(s) { install(s.middlewares); }, configurePreviewServer(s) { install(s.middlewares); } };
+  return { name: 'kosmoskopos-hud-summary-proxy', configureServer(s) { install(s.middlewares); }, configurePreviewServer(s) { install(s.middlewares); } };
 }

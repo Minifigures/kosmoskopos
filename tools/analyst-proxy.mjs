@@ -1,4 +1,4 @@
-// CrisisScape "Duty Officer" analyst — free-AI proxy.
+// Kosmoskopos "Duty Officer" analyst — free-AI proxy.
 //
 // A same-origin POST /api/analyst endpoint that answers an operator's question
 // about the live globe using free LLMs: Google Gemini (free tier) first, then
@@ -40,7 +40,7 @@ function overRateLimit(ip) {
 }
 
 const SYSTEM_PROMPT = [
-  'You are CrisisScape Duty Officer, a calm, precise spatial-intelligence analyst monitoring a',
+  'You are Kosmoskopos Duty Officer, a calm, precise spatial-intelligence analyst monitoring a',
   'live photorealistic 3D globe of Earth built entirely from PUBLIC data feeds (aircraft,',
   'vessels, satellites, earthquakes, active fires, weather, traffic, public cameras, and',
   'humanitarian disaster alerts). Answer the operator using ONLY the live map context',

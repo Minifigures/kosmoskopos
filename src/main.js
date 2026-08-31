@@ -35,7 +35,7 @@ import {
 } from './renderGovernor.js';
 import { installScopeMask } from './scopeMask.js';
 import { initFirstRunExperience } from './firstRunExperience.js';
-import { initCrisisScapeAsk } from './csAsk.js';
+import { initKosmoskoposAsk } from './csAsk.js';
 
 initLogoGaze();
 
@@ -66,7 +66,7 @@ function describeError(error) {
 }
 
 /**
- * CRISISSCAPE — Main Entry Point
+ * KOSMOSKOPOS — Main Entry Point
  * Initializes CesiumJS with Google Photorealistic 3D Tiles,
  * style system, intelligence HUD, location presets, and share links.
  */
@@ -83,7 +83,7 @@ async function init() {
       Cesium.Ion.defaultAccessToken = cesiumToken;
     }
 
-    // Google Maps key is OPTIONAL in CrisisScape. Upstream hard-required it, but CrisisScape
+    // Google Maps key is OPTIONAL in Kosmoskopos. Upstream hard-required it, but Kosmoskopos
     // runs fully free: Google Photorealistic 3D Tiles stream THROUGH Cesium ion
     // (no Google Cloud billing), and with no token at all it falls back to a
     // keyless OSM 3D globe stack. Only wire Google when a key is actually set.
@@ -137,6 +137,12 @@ async function init() {
     // 2026-08-05 perf investigation as a strict halving of idle burn on
     // 120 Hz hardware; a no-op on 60 Hz displays. (perf item 2)
     viewer.targetFrameRate = 60;
+
+    // Keep the globe uniformly lit day AND night — imagery on the night side
+    // otherwise dims to black (a demo opened in the evening looked "broken").
+    // No-op for the baked-lit photoreal tileset; fixes the imagery-globe path.
+    viewer.scene.globe.enableLighting = false;
+    viewer.scene.globe.dynamicAtmosphereLighting = false;
 
 
     // Register per-layer data attribution into the "Data attribution" popover.
@@ -235,7 +241,7 @@ async function init() {
     // terrain + raster imagery) is an untested branch that fails to tessellate
     // here, leaving a black globe. When there is no photoreal tileset AND no ion
     // token, force a flat EllipsoidTerrainProvider (always renders, zero network)
-    // and attach a keyless satellite basemap directly, so CrisisScape shows a real
+    // and attach a keyless satellite basemap directly, so Kosmoskopos shows a real
     // Earth with no keys at all. With a Cesium ion token the tested ion/photoreal
     // stacks run instead and this block is skipped.
     if (!tileset && !cesiumToken) {
@@ -317,9 +323,9 @@ async function init() {
     // Initialize the voice "whiteboard" annotation engine (world-space renderer)
     const annotations = initAnnotations({ viewer, tileset });
 
-    // CrisisScape "Ask the planet" analyst widget — free-AI Duty Officer over
+    // Kosmoskopos "Ask the planet" analyst widget — free-AI Duty Officer over
     // /api/analyst (Gemini -> Groq), reading live camera + layer context.
-    initCrisisScapeAsk(viewer, dataManager);
+    initKosmoskoposAsk(viewer, dataManager);
 
     // Keep startup chrome truthful: a share is not restored until camera,
     // visual/map/panel lanes, and every requested layer have terminated.
@@ -400,7 +406,7 @@ async function init() {
     window.__godsEyeView.voiceCommands = initGevVoiceCommands({ viewer, styleManager, dataManager, sceneDirector, annotations });
 
   } catch (error) {
-    console.error("CrisisScape initialization failed:", error);
+    console.error("Kosmoskopos initialization failed:", error);
     loaderStatus.textContent = `Error: ${describeError(error)}`;
     loaderStatus.style.color = '#ff4444';
   }

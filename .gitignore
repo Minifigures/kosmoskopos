@@ -12,7 +12,7 @@ output/
 3d-models/
 models/
 
-# --- CrisisScape additions ---
+# --- Kosmoskopos additions ---
 .env
 .env.*
 !.env.example

@@ -1,8 +1,8 @@
 <div align="center">
 
-# 🌐 CrisisScape
+# 🌐 Kosmoskopos
 
-### Every crisis, on one living globe.
+### An eye on every crisis.
 
 A real-time humanitarian **crisis map**: a photorealistic 3D Earth that fuses live public data — global disaster alerts, hurricanes, wildfires, earthquakes, and hyperlocal heat-relief — into one situational-awareness command center you can **talk to**, powered entirely by **free and open** data and AI.
 
@@ -12,9 +12,9 @@ A real-time humanitarian **crisis map**: a photorealistic 3D Earth that fuses li
 
 ---
 
-## Why CrisisScape
+## Why Kosmoskopos
 
-When a disaster hits, the signals are already public — seismographs, storm trackers, fire satellites, city open-data — but they live in a dozen disconnected dashboards. CrisisScape turns those public signals into a **place**: one photorealistic globe where you can *see* every active crisis at once, ask an AI analyst what's happening, and zoom from the whole planet down to the nearest cooling centre. No classified data, no paid APIs — **open signal all the way down.**
+When a disaster hits, the signals are already public — seismographs, storm trackers, fire satellites, city open-data — but they live in a dozen disconnected dashboards. Kosmoskopos turns those public signals into a **place**: one photorealistic globe where you can *see* every active crisis at once, ask an AI analyst what's happening, and zoom from the whole planet down to the nearest cooling centre. No classified data, no paid APIs — **open signal all the way down.**
 
 ## What it does
 
@@ -50,7 +50,7 @@ The globe renders free with just a Cesium ion token. Every other layer degrades 
 
 ## Data sources & attribution
 
-CrisisScape uses only public, openly-licensed data. In-app attribution is shown on the globe's credit line (Google / Cesium ion, required) and in the expandable **Data attribution** panel: GDACS (JRC / UN OCHA), NOAA National Hurricane Center (public domain), NASA FIRMS, USGS (public domain), City of Toronto Open Data, © OpenStreetMap contributors (ODbL), and others. Each provider retains its own terms.
+Kosmoskopos uses only public, openly-licensed data. In-app attribution is shown on the globe's credit line (Google / Cesium ion, required) and in the expandable **Data attribution** panel: GDACS (JRC / UN OCHA), NOAA National Hurricane Center (public domain), NASA FIRMS, USGS (public domain), City of Toronto Open Data, © OpenStreetMap contributors (ODbL), and others. Each provider retains its own terms.
 
 ## License
 
@@ -60,6 +60,6 @@ Code: [MIT](LICENSE). Third-party data and visual assets keep their own licenses
 
 <div align="center">
 
-**CrisisScape — every crisis, on one living globe.**
+**Kosmoskopos — every crisis, on one living globe.**
 
 </div>

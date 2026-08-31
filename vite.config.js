@@ -1,5 +1,5 @@
 /**
- * Vite configuration for CrisisScape — a cinematic geospatial app.
+ * Vite configuration for Kosmoskopos — a cinematic geospatial app.
  *
  * Registers the dev-server proxy middlewares that bypass CORS and add
  * caching/auth for upstream APIs:
@@ -1534,7 +1534,7 @@ function celestrakProxy() {
       signal: AbortSignal.timeout(20000),
       // CelesTrak 403s bulk groups (e.g. `active`) unless the request carries a
       // descriptive User-Agent with a contact point.
-      headers: { 'User-Agent': 'crisisscape-celestrak-proxy/1.0 (+https://github.com/bilawalsidhu/crisisscape)' },
+      headers: { 'User-Agent': 'kosmoskopos-celestrak-proxy/1.0 (+https://github.com/bilawalsidhu/kosmoskopos)' },
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const body = await res.text();
@@ -2527,7 +2527,7 @@ async function fetchOverpassPayload(body, maxResponseBytes = OVERPASS_MAX_RESPON
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'User-Agent': 'crisisscape-overpass-proxy/1.0',
+          'User-Agent': 'kosmoskopos-overpass-proxy/1.0',
         },
         body,
         signal: controller.signal,
@@ -2770,7 +2770,7 @@ function overpassProxy() {
           try {
             const upstreamRes = await fetch(upstream, {
               signal: controller.signal,
-              headers: { 'User-Agent': 'crisisscape/dev (local)' },
+              headers: { 'User-Agent': 'kosmoskopos/dev (local)' },
             });
             if (!upstreamRes.ok) return fail('no route found');
             const ctype = upstreamRes.headers.get('content-type') || '';
@@ -2832,7 +2832,7 @@ async function fetchAdsbLolPointFallback(req) {
         {
           headers: {
             Accept: 'application/json',
-            'User-Agent': 'crisisscape-adsblol-regional-fallback/1.0',
+            'User-Agent': 'kosmoskopos-adsblol-regional-fallback/1.0',
           },
           signal: controller.signal,
         },
@@ -3312,7 +3312,7 @@ function gbfsProxy() {
               method: 'GET',
               headers: {
                 Accept: 'application/json',
-                'User-Agent': 'crisisscape-gbfs-proxy/1.0',
+                'User-Agent': 'kosmoskopos-gbfs-proxy/1.0',
               },
               signal: controller.signal,
             });
@@ -4388,7 +4388,7 @@ export async function fetchCctvImageFromUpstream(url, {
   }, timeoutMs);
   try {
     const upstream = await fetchImpl(url, {
-      headers: { 'User-Agent': 'crisisscape-cctv-proxy/1.0' },
+      headers: { 'User-Agent': 'kosmoskopos-cctv-proxy/1.0' },
       signal: controller.signal,
     });
     const contentType = upstream.headers.get('content-type') || '';
@@ -4478,7 +4478,7 @@ function cctvProxy() {
       sv.searchParams.set('key', streetViewKey);
 
       const svResp = await fetch(sv.toString(), {
-        headers: { 'User-Agent': 'crisisscape-cctv-proxy/1.0' },
+        headers: { 'User-Agent': 'kosmoskopos-cctv-proxy/1.0' },
         signal: AbortSignal.timeout(CCTV_FRAME_FETCH_TIMEOUT_MS),
       });
       const svType = svResp.headers.get('content-type') || '';
@@ -4565,7 +4565,7 @@ function cctvProxy() {
             }
 
             try {
-              const upstreamHeaders = { 'User-Agent': 'crisisscape-cctv-proxy/1.0' };
+              const upstreamHeaders = { 'User-Agent': 'kosmoskopos-cctv-proxy/1.0' };
               const requestRange = req.headers?.range;
               if (requestRange) upstreamHeaders.Range = requestRange;
               const upstream = await fetch(mediaUrl, {
@@ -4730,7 +4730,7 @@ function adsbLolProxy() {
             return;
           }
           const upstream = await fetch('https://api.adsb.lol/v2/mil', {
-            headers: { 'User-Agent': 'crisisscape-adsblol-proxy/1.0' },
+            headers: { 'User-Agent': 'kosmoskopos-adsblol-proxy/1.0' },
           });
           const body = await upstream.text();
           if (upstream.ok) {
@@ -4996,7 +4996,7 @@ function openAiRealtimeProxy() {
           body: JSON.stringify({
             model: process.env.OPENAI_HUD_SUMMARY_MODEL || OPENAI_HUD_SUMMARY_MODEL_DEFAULT,
             instructions: [
-              "Write one concise intelligence-HUD summary for CrisisScape.",
+              "Write one concise intelligence-HUD summary for Kosmoskopos.",
               'Use only the supplied place, street, nearby-place, and enabled-layer text labels.',
               'Prefer the clearest named place and include a relevant enabled layer only when useful.',
               'Do not infer from coordinates or invent a place.',
@@ -5120,7 +5120,7 @@ function openAiRealtimeProxy() {
             output: { voice },
           },
           instructions: [
-            "You are GEV Voice Control, a concise voice controller for a Cesium geospatial app called CrisisScape.",
+            "You are GEV Voice Control, a concise voice controller for a Cesium geospatial app called Kosmoskopos.",
             'Have a natural spoken conversation with the user while the mic session is active.',
             'Do not require a wake phrase. Treat direct commands like "zoom into London" or "open datacenters" as GEV control requests.',
             'Only control the app by calling the provided tools. Never invent tool names or arguments.',
@@ -5541,7 +5541,7 @@ const GEV_REALTIME_TOOLS = [
   {
     type: 'function',
     name: 'fly_to_location',
-    description: "Fly the CrisisScape camera to a known city, geocoded country/region/city/landmark, or explicit WGS84 coordinate. Countries/cities frame the whole place; landmarks/buildings use close framing.",
+    description: "Fly the Kosmoskopos camera to a known city, geocoded country/region/city/landmark, or explicit WGS84 coordinate. Countries/cities frame the whole place; landmarks/buildings use close framing.",
     parameters: {
       type: 'object',
       additionalProperties: false,
@@ -5638,7 +5638,7 @@ const GEV_REALTIME_TOOLS = [
   {
     type: 'function',
     name: 'set_layer_visibility',
-    description: "Enable or disable one registered CrisisScape data layer.",
+    description: "Enable or disable one registered Kosmoskopos data layer.",
     parameters: {
       type: 'object',
       additionalProperties: false,
@@ -5762,7 +5762,7 @@ const GEV_REALTIME_TOOLS = [
   {
     type: 'function',
     name: 'set_visual_style',
-    description: "Set the active CrisisScape visual filter/style.",
+    description: "Set the active Kosmoskopos visual filter/style.",
     parameters: {
       type: 'object',
       additionalProperties: false,
@@ -7037,8 +7037,8 @@ function fetchRegionalPlace(point) {
     });
     const payload = await fetchRegionalJson(`https://nominatim.openstreetmap.org/reverse?${params}`, {
       headers: {
-        'User-Agent': 'GodsEyeView/0.1 (+https://github.com/bilawalsidhu/crisisscape)',
-        Referer: 'https://github.com/bilawalsidhu/crisisscape',
+        'User-Agent': 'GodsEyeView/0.1 (+https://github.com/bilawalsidhu/kosmoskopos)',
+        Referer: 'https://github.com/bilawalsidhu/kosmoskopos',
       },
     });
     return normalizeRegionalPlace(payload);
@@ -7344,8 +7344,20 @@ export default defineConfig(({ mode }) => {
     if (process.env[key] === undefined) process.env[key] = val;
   }
   const env = { ...process.env };
+  // A production deploy serves the built assets with `vite preview`, which runs
+  // only `configurePreviewServer`. Every same-origin /api proxy below is plain
+  // connect middleware and touches no dev-only server APIs, so the dev hook is
+  // reused verbatim for preview; without this every /api route would 404 in
+  // production.
+  const withPreviewProxies = (plugins) => plugins.map((plugin) => (
+    plugin && typeof plugin === 'object' && typeof plugin.name === 'string'
+      && /-prox(y|ies)$/.test(plugin.name)
+      && plugin.configureServer && !plugin.configurePreviewServer
+      ? { ...plugin, configurePreviewServer: plugin.configureServer }
+      : plugin
+  ));
   return {
-    plugins: [
+    plugins: withPreviewProxies([
       cesium(),
       openSkyProxy(),
       celestrakProxy(),
@@ -7372,11 +7384,20 @@ export default defineConfig(({ mode }) => {
       gdacsProxy(),
       nhcProxy(),
       torontoCoolProxy(),
-    ],
+    ]),
     server: {
       host: env.HOST || 'localhost',
       port: parseInt(env.PORT, 10) || 5173,
       // When binding to all interfaces, allow any host; otherwise restrict to local names
+      allowedHosts: (env.HOST === '0.0.0.0' || env.HOST === '::')
+        ? true
+        : ['localhost', '127.0.0.1', '.local'],
+    },
+    // `vite preview` serves the production build in deployment. It needs the same
+    // host/port binding and host allowlist as the dev server.
+    preview: {
+      host: env.HOST || 'localhost',
+      port: parseInt(env.PORT, 10) || 4173,
       allowedHosts: (env.HOST === '0.0.0.0' || env.HOST === '::')
         ? true
         : ['localhost', '127.0.0.1', '.local'],

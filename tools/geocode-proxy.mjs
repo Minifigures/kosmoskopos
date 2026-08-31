@@ -8,7 +8,7 @@
 // Reply (JSON): { lat, lng, label, types, viewport:{southwest,northeast} } | null
 
 const NOMINATIM_URL = 'https://nominatim.openstreetmap.org/search';
-const USER_AGENT = 'CrisisScape-globe/1.0 (hackathon; contact minifiguresgt@gmail.com)';
+const USER_AGENT = 'Kosmoskopos-globe/1.0 (hackathon; contact minifiguresgt@gmail.com)';
 const CACHE_TTL_MS = 60 * 60 * 1000;
 const cache = new Map(); // key -> { at, payload }
 

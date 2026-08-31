@@ -1,4 +1,4 @@
-// CrisisScape — "Ask the planet" analyst widget.
+// Kosmoskopos — "Ask the planet" analyst widget.
 //
 // Lets the operator ask the free-AI Duty Officer about the live globe. Two modes:
 //  - Default: POST /api/analyst (server-side Gemini -> Groq -> local -> rule-based
@@ -70,7 +70,7 @@ function gatherContext() {
   return ctx;
 }
 
-const SYS = 'You are CrisisScape Duty Officer, a calm, precise spatial-intelligence analyst for a live humanitarian 3D globe of Earth built from public data (aircraft, vessels, satellites, earthquakes, active fires, weather, live disaster alerts). Answer using ONLY the live map context plus general knowledge. Be concise: 2-4 sentences, direct answer first. Do not invent specific live values not in the context. This is open-source situational awareness for disaster response, not surveillance of individuals.';
+const SYS = 'You are Kosmoskopos Duty Officer, a calm, precise spatial-intelligence analyst for a live humanitarian 3D globe of Earth built from public data (aircraft, vessels, satellites, earthquakes, active fires, weather, live disaster alerts). Answer using ONLY the live map context plus general knowledge. Be concise: 2-4 sentences, direct answer first. Do not invent specific live values not in the context. This is open-source situational awareness for disaster response, not surveillance of individuals.';
 
 async function askServer(question, context, els) {
   const response = await fetch('/api/analyst', {
@@ -135,32 +135,32 @@ async function ask(question, els) {
 
 const STYLE = `
 #cs-ask{position:fixed;right:20px;bottom:132px;z-index:9000;font-family:'JetBrains Mono',ui-monospace,monospace;}
-#cs-ask .cs-pill{display:flex;align-items:center;gap:8px;cursor:pointer;padding:9px 14px;border:1px solid rgba(38,214,255,.5);border-radius:20px;background:rgba(4,14,20,.86);color:#26d6ff;font-size:12px;letter-spacing:.14em;text-transform:uppercase;backdrop-filter:blur(6px);box-shadow:0 0 18px rgba(38,214,255,.16);transition:border-color .2s,box-shadow .2s;}
-#cs-ask .cs-pill:hover{border-color:#26d6ff;box-shadow:0 0 26px rgba(38,214,255,.34);}
+#cs-ask .cs-pill{display:flex;align-items:center;gap:8px;cursor:pointer;padding:9px 14px;border:1px solid rgba(244, 183, 64,.5);border-radius:20px;background:rgba(20, 15, 4, .86);color:#f4b740;font-size:12px;letter-spacing:.14em;text-transform:uppercase;backdrop-filter:blur(6px);box-shadow:0 0 18px rgba(244, 183, 64,.16);transition:border-color .2s,box-shadow .2s;}
+#cs-ask .cs-pill:hover{border-color:#f4b740;box-shadow:0 0 26px rgba(244, 183, 64,.34);}
 #cs-ask .cs-pill .cs-eye{font-size:14px;}
-#cs-ask .cs-panel{display:none;flex-direction:column;width:340px;max-width:78vw;border:1px solid rgba(38,214,255,.42);border-radius:12px;background:rgba(4,14,20,.94);backdrop-filter:blur(8px);box-shadow:0 10px 40px rgba(0,0,0,.55),0 0 30px rgba(38,214,255,.1);overflow:hidden;}
+#cs-ask .cs-panel{display:none;flex-direction:column;width:340px;max-width:78vw;border:1px solid rgba(244, 183, 64,.42);border-radius:12px;background:rgba(20, 15, 4, .94);backdrop-filter:blur(8px);box-shadow:0 10px 40px rgba(0,0,0,.55),0 0 30px rgba(244, 183, 64,.1);overflow:hidden;}
 #cs-ask.cs-open .cs-panel{display:flex;}
 #cs-ask.cs-open .cs-pill{display:none;}
-#cs-ask .cs-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;border-bottom:1px solid rgba(38,214,255,.2);color:#26d6ff;font-size:11px;letter-spacing:.14em;text-transform:uppercase;}
+#cs-ask .cs-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;border-bottom:1px solid rgba(244, 183, 64,.2);color:#f4b740;font-size:11px;letter-spacing:.14em;text-transform:uppercase;}
 #cs-ask .cs-head-actions{display:flex;align-items:center;gap:6px;}
-#cs-ask .cs-toggle{cursor:pointer;border:1px solid rgba(38,214,255,.35);background:rgba(0,0,0,.25);color:#7fd7e8;border-radius:12px;font-size:9.5px;letter-spacing:.08em;padding:3px 8px;text-transform:uppercase;}
+#cs-ask .cs-toggle{cursor:pointer;border:1px solid rgba(244, 183, 64,.35);background:rgba(0,0,0,.25);color:#e6c78a;border-radius:12px;font-size:9.5px;letter-spacing:.08em;padding:3px 8px;text-transform:uppercase;}
 #cs-ask .cs-toggle.on{border-color:#3ad07a;color:#3ad07a;background:rgba(58,208,122,.14);}
-#cs-ask .cs-close{cursor:pointer;color:#7fd7e8;background:none;border:none;font-size:15px;line-height:1;padding:2px 4px;}
+#cs-ask .cs-close{cursor:pointer;color:#e6c78a;background:none;border:none;font-size:15px;line-height:1;padding:2px 4px;}
 #cs-ask .cs-close:hover{color:#fff;}
 #cs-ask .cs-body{padding:12px;display:flex;flex-direction:column;gap:10px;}
-#cs-ask .cs-answer{min-height:20px;max-height:34vh;overflow-y:auto;color:#e7f6fb;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;line-height:1.5;white-space:pre-wrap;}
-#cs-ask .cs-status{color:#7fd7e8;font-size:11.5px;font-style:italic;}
-#cs-ask .cs-badge{color:#3a99ad;font-size:10px;letter-spacing:.1em;text-transform:uppercase;}
+#cs-ask .cs-answer{min-height:20px;max-height:34vh;overflow-y:auto;color:#fbf5e7;font-family:'Inter',system-ui,sans-serif;font-size:13.5px;line-height:1.5;white-space:pre-wrap;}
+#cs-ask .cs-status{color:#e6c78a;font-size:11.5px;font-style:italic;}
+#cs-ask .cs-badge{color:#ad8b3a;font-size:10px;letter-spacing:.1em;text-transform:uppercase;}
 #cs-ask .cs-inrow{display:flex;gap:8px;align-items:flex-end;}
-#cs-ask textarea{flex:1;resize:none;background:rgba(0,0,0,.35);border:1px solid rgba(38,214,255,.3);border-radius:8px;color:#e7f6fb;font-family:'Inter',system-ui,sans-serif;font-size:13px;padding:8px 10px;line-height:1.4;min-height:38px;max-height:110px;outline:none;}
-#cs-ask textarea:focus{border-color:#26d6ff;}
-#cs-ask .cs-send{cursor:pointer;border:1px solid #26d6ff;background:rgba(38,214,255,.14);color:#26d6ff;border-radius:8px;padding:9px 12px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.1em;}
-#cs-ask .cs-send:hover:not(:disabled){background:rgba(38,214,255,.26);}
+#cs-ask textarea{flex:1;resize:none;background:rgba(0,0,0,.35);border:1px solid rgba(244, 183, 64,.3);border-radius:8px;color:#fbf5e7;font-family:'Inter',system-ui,sans-serif;font-size:13px;padding:8px 10px;line-height:1.4;min-height:38px;max-height:110px;outline:none;}
+#cs-ask textarea:focus{border-color:#f4b740;}
+#cs-ask .cs-send{cursor:pointer;border:1px solid #f4b740;background:rgba(244, 183, 64,.14);color:#f4b740;border-radius:8px;padding:9px 12px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.1em;}
+#cs-ask .cs-send:hover:not(:disabled){background:rgba(244, 183, 64,.26);}
 #cs-ask .cs-send:disabled{opacity:.5;cursor:default;}
-#cs-ask .cs-hint{color:#3a99ad;font-size:10.5px;}
+#cs-ask .cs-hint{color:#ad8b3a;font-size:10.5px;}
 #cs-ask .cs-chips{display:flex;flex-wrap:wrap;gap:6px;}
-#cs-ask .cs-chip{cursor:pointer;border:1px solid rgba(38,214,255,.28);border-radius:12px;background:rgba(0,0,0,.25);color:#9fdcea;font-size:10.5px;padding:4px 8px;}
-#cs-ask .cs-chip:hover{border-color:#26d6ff;color:#e7f6fb;}
+#cs-ask .cs-chip{cursor:pointer;border:1px solid rgba(244, 183, 64,.28);border-radius:12px;background:rgba(0,0,0,.25);color:#ead39f;font-size:10.5px;padding:4px 8px;}
+#cs-ask .cs-chip:hover{border-color:#f4b740;color:#fbf5e7;}
 @media (max-width:640px){#cs-ask{right:10px;bottom:96px;}}
 `;
 
@@ -171,11 +171,11 @@ const SUGGESTIONS = [
 ];
 
 /**
- * Mount the Ask CrisisScape widget.
+ * Mount the Ask Kosmoskopos widget.
  * @param {Cesium.Viewer} viewer
  * @param {object} dataManager DataLayerManager (for active-layer context)
  */
-export function initCrisisScapeAsk(viewer, dataManager) {
+export function initKosmoskoposAsk(viewer, dataManager) {
   _viewer = viewer;
   _dataManager = dataManager;
   if (document.getElementById('cs-ask')) return;
@@ -187,10 +187,10 @@ export function initCrisisScapeAsk(viewer, dataManager) {
   const root = document.createElement('div');
   root.id = 'cs-ask';
   root.innerHTML = `
-    <div class="cs-pill" role="button" tabindex="0" aria-label="Ask CrisisScape">
-      <span class="cs-eye">◈</span><span>Ask CrisisScape</span>
+    <div class="cs-pill" role="button" tabindex="0" aria-label="Ask Kosmoskopos">
+      <span class="cs-eye">◈</span><span>Ask Kosmoskopos</span>
     </div>
-    <div class="cs-panel" role="dialog" aria-label="Ask CrisisScape">
+    <div class="cs-panel" role="dialog" aria-label="Ask Kosmoskopos">
       <div class="cs-head">
         <span>◈ Duty Officer</span>
         <span class="cs-head-actions">

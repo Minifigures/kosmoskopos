@@ -17,7 +17,7 @@ export function torontoCoolProxy() {
       const now = Date.now();
       if (cache && now - cache.at < TTL_MS) return send(200, cache.body);
       try {
-        const r = await fetch(CKAN_URL, { headers: { Accept: 'application/json', 'User-Agent': 'CrisisScape/1.0 (hackathon)' } });
+        const r = await fetch(CKAN_URL, { headers: { Accept: 'application/json', 'User-Agent': 'Kosmoskopos/1.0 (hackathon)' } });
         if (!r.ok) { if (cache) return send(200, cache.body); return send(502, JSON.stringify({ spaces: [], error: `CKAN HTTP ${r.status}` })); }
         const data = await r.json().catch(() => ({}));
         const records = data?.result?.records || [];
@@ -45,5 +45,5 @@ export function torontoCoolProxy() {
       }
     });
   }
-  return { name: 'crisisscape-toronto-cool-proxy', configureServer(s) { install(s.middlewares); }, configurePreviewServer(s) { install(s.middlewares); } };
+  return { name: 'kosmoskopos-toronto-cool-proxy', configureServer(s) { install(s.middlewares); }, configurePreviewServer(s) { install(s.middlewares); } };
 }

@@ -15,7 +15,7 @@ export function nhcProxy() {
       const now = Date.now();
       if (cache && now - cache.at < TTL_MS) return send(200, cache.body);
       try {
-        const r = await fetch(NHC_URL, { headers: { Accept: 'application/json', 'User-Agent': 'CrisisScape/1.0 (hackathon)' } });
+        const r = await fetch(NHC_URL, { headers: { Accept: 'application/json', 'User-Agent': 'Kosmoskopos/1.0 (hackathon)' } });
         if (!r.ok) { if (cache) return send(200, cache.body); return send(502, JSON.stringify({ activeStorms: [], error: `NHC HTTP ${r.status}` })); }
         const body = await r.text();
         cache = { at: now, body };
@@ -26,5 +26,5 @@ export function nhcProxy() {
       }
     });
   }
-  return { name: 'crisisscape-nhc-proxy', configureServer(s) { install(s.middlewares); }, configurePreviewServer(s) { install(s.middlewares); } };
+  return { name: 'kosmoskopos-nhc-proxy', configureServer(s) { install(s.middlewares); }, configurePreviewServer(s) { install(s.middlewares); } };
 }
