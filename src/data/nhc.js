@@ -44,7 +44,7 @@ function createNhcLayer() {
       _ds = new Cesium.CustomDataSource('nhc');
       _ds.show = false;
       viewer.dataSources.add(_ds);
-      _count = 0; _lastUpdate = null; _lastError = null;
+      _count = 0; _lastUpdate = null; _lastError = null; _top = [];
       console.log('[Data:NHC] Initialized');
     },
     enable() { if (_ds) _ds.show = true; },

@@ -237,14 +237,21 @@ export function analystProxy() {
         return;
       }
 
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+      // Each provider attempt gets its OWN timeout budget: a slow or hanging
+      // first provider must not abort the fallbacks, otherwise the advertised
+      // Gemini -> Groq -> local waterfall collapses to "first provider or
+      // rule-based" in exactly the slow-provider case it exists to handle.
+      const attempt = async (fn) => {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+        try { return await fn(controller.signal); }
+        finally { clearTimeout(timeout); }
+      };
       const errors = [];
       try {
         if (geminiKey) {
           try {
-            const answer = await callGemini(SYSTEM_PROMPT, user, geminiKey, controller.signal);
-            clearTimeout(timeout);
+            const answer = await attempt((signal) => callGemini(SYSTEM_PROMPT, user, geminiKey, signal));
             sendJson(res, 200, { answer, provider: 'gemini', model: GEMINI_MODEL, degraded: false });
             return;
           } catch (e) {
@@ -253,8 +260,7 @@ export function analystProxy() {
         }
         if (groqKey) {
           try {
-            const answer = await callGroq(SYSTEM_PROMPT, user, groqKey, controller.signal);
-            clearTimeout(timeout);
+            const answer = await attempt((signal) => callGroq(SYSTEM_PROMPT, user, groqKey, signal));
             sendJson(res, 200, { answer, provider: 'groq', model: GROQ_MODEL, degraded: Boolean(geminiKey) });
             return;
           } catch (e) {
@@ -263,21 +269,18 @@ export function analystProxy() {
         }
         if (LOCAL_LLM_URL) {
           try {
-            const answer = await callLocal(SYSTEM_PROMPT, user, controller.signal);
-            clearTimeout(timeout);
+            const answer = await attempt((signal) => callLocal(SYSTEM_PROMPT, user, signal));
             sendJson(res, 200, { answer, provider: 'local', model: LOCAL_LLM_MODEL, degraded: Boolean(geminiKey || groqKey) });
             return;
           } catch (e) {
             errors.push(`local: ${e.message}`);
           }
         }
-        clearTimeout(timeout);
         // Never-fail rule-based SITREP: when every free provider is busy/quota'd,
         // still return a useful deterministic answer from the live context so the
         // Duty Officer never shows an error to a visitor.
         sendJson(res, 200, { answer: ruleBasedSitrep(question, body.context), provider: 'sitrep', model: 'rule-based', degraded: true });
       } catch (e) {
-        clearTimeout(timeout);
         sendJson(res, 502, { error: e?.message || 'analyst error', details: errors });
       }
     });

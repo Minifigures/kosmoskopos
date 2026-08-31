@@ -78,20 +78,24 @@ export function hudSummaryProxy() {
       const user = 'SCENE CONTEXT: ' + JSON.stringify(ctx).slice(0, 3500);
       const geminiKey = String(process.env.GEMINI_API_KEY || '').trim();
       const groqKey = String(process.env.GROQ_API_KEY || '').trim();
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 8000);
+      // Per-attempt timeout budget so a slow provider can't starve the fallbacks.
+      const attempt = async (fn) => {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 8000);
+        try { return await fn(controller.signal); }
+        finally { clearTimeout(timeout); }
+      };
       try {
         // Cloud first (fast) for this frequent HUD blurb; the local CPU model is
         // a slower OFFLINE last-resort so it never stalls the 15s HUD refresh.
         let summary = null;
-        if (geminiKey) { try { summary = await callGemini(SYS, user, geminiKey, controller.signal); } catch { /* fall through */ } }
-        if (!summary && groqKey) { try { summary = await chatOpenAI('https://api.groq.com/openai', GROQ_MODEL, { Authorization: `Bearer ${groqKey}` }, SYS, user, controller.signal); } catch { /* fall through */ } }
-        if (!summary && LOCAL_LLM_URL) { try { summary = await chatOpenAI(LOCAL_LLM_URL, LOCAL_LLM_MODEL, {}, SYS, user, controller.signal); } catch { /* fall through */ } }
-        clearTimeout(timeout);
+        if (geminiKey) { try { summary = await attempt((s) => callGemini(SYS, user, geminiKey, s)); } catch { /* fall through */ } }
+        if (!summary && groqKey) { try { summary = await attempt((s) => chatOpenAI('https://api.groq.com/openai', GROQ_MODEL, { Authorization: `Bearer ${groqKey}` }, SYS, user, s)); } catch { /* fall through */ } }
+        if (!summary && LOCAL_LLM_URL) { try { summary = await attempt((s) => chatOpenAI(LOCAL_LLM_URL, LOCAL_LLM_MODEL, {}, SYS, user, s)); } catch { /* fall through */ } }
         if (summary) return send(200, { summary: tidy(summary), degraded: false });
         // Every free provider missed (quota / offline): degrade gracefully, never error.
         return send(200, { summary: ruleBasedHud(ctx), degraded: true });
-      } catch { clearTimeout(timeout); return send(200, { summary: ruleBasedHud(ctx), degraded: true }); }
+      } catch { return send(200, { summary: ruleBasedHud(ctx), degraded: true }); }
     });
   }
   return { name: 'kosmoskopos-hud-summary-proxy', configureServer(s) { install(s.middlewares); }, configurePreviewServer(s) { install(s.middlewares); } };

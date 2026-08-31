@@ -1583,6 +1583,7 @@ const bikeshareLayer = {
 
     const generation = _proximityGeneration;
     const cityIds = Array.from(_activeCityIds);
+    let hadError = false;
     await Promise.all(cityIds.map(async (cityId) => {
       try {
         const statusMap = await loadCityStationStatus(cityId, generation);
@@ -1591,9 +1592,13 @@ const bikeshareLayer = {
       } catch (error) {
         if (error?.name === 'AbortError') return;
         console.warn(`[Data:Bikeshare] ${cityId} status update error:`, error);
+        hadError = true;
         _error = 'GBFS status update failed';
       }
     }));
+    // Clear a prior error once a full poll round succeeds, so the DEGRADED chip
+    // does not stay stuck after the feed recovers (mirrors the other layers).
+    if (!hadError) _error = null;
 
     _count = _stationRenderMap.size;
     if (_count > 0) _lastUpdate = Date.now();

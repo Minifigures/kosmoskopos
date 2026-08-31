@@ -68,7 +68,10 @@ function gatherContext() {
           count = s?.count ?? s?.total ?? s?.visible ?? s?.rendered ?? null;
           // The most notable records the layer exposes (Duty Officer context):
           // named storms with wind speed, largest quakes, severest alerts.
-          if (Array.isArray(s?.top) && s.top.length) top = s.top;
+          // Skip when the layer's feed is erroring: _top is only overwritten on a
+          // successful fetch, so a failing layer could otherwise report a stale
+          // event to the AI as if it were live.
+          if (!s?.error && Array.isArray(s?.top) && s.top.length) top = s.top;
         } catch { /* optional */ }
         layers.push(count != null ? `${id}:${count}` : id);
         if (top) highlights[id] = top;
@@ -108,7 +111,7 @@ async function askServer(question, context, els, attempt = 0) {
   // the answer appears on its own once the server is warm.
   const status = response ? response.status : 0;
   const bootLike = !response || status === 502 || status === 503 || status === 504;
-  if (bootLike && attempt < 4) {
+  if (bootLike && attempt < 9) {
     els.status.hidden = false;
     els.status.textContent = `Duty Officer is booting up (free-tier cold start)… warming up${'.'.repeat(attempt % 3 + 1)}`;
     await new Promise((r) => setTimeout(r, 6000));

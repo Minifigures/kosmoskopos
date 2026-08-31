@@ -49,6 +49,7 @@ function createGdacsLayer() {
       _lastUpdate = null;
       _lastError = null;
       _enabled = false;
+      _top = [];
       console.log('[Data:GDACS] Initialized');
     },
 

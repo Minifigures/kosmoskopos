@@ -146,6 +146,7 @@ export function createEarthquakesLayer({ overlayHost = DEFAULT_OVERLAY_HOST } = 
     _lastUpdate = null;
     _lastError = null;
     _enabled = false;
+    _top = [];
     overlayHost.setVisible(EARTHQUAKE_OVERLAY_SOURCE_ID, false);
     console.log('[Data:Earthquakes] Initialized');
   },
@@ -187,11 +188,13 @@ export function createEarthquakesLayer({ overlayHost = DEFAULT_OVERLAY_HOST } = 
 
       for (const feature of geojson.features) {
         const [lon, lat, depthKm] = feature.geometry.coordinates;
-        const mag = feature.properties.mag;
+        const mag = Number(feature.properties.mag);
         const place = feature.properties.place;
         const time = feature.properties.time;
 
-        if (mag < 2.5) continue; // Skip micro-quakes
+        // Numeric guard: `undefined < 2.5` is false, so a missing/NaN magnitude
+        // would slip through and leak NaN into the radius and the _top highlight.
+        if (!Number.isFinite(mag) || mag < 2.5) continue; // Skip micro-quakes
 
         count++;
         events.push({ mag: Number(mag), place: place || 'unknown location' });

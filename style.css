@@ -9263,3 +9263,18 @@ body.scene-playback-mode #first-run-launcher {
 @media (prefers-reduced-motion: reduce) {
   .loader-content::after { animation: none; background-position: 50% 0; }
 }
+
+/* A11Y: keyboard focus indicators for the control clusters that reset or lack
+   an outline (Visual Presets, the Display panel toggles, mode buttons, Scene
+   Director, panel collapse chevrons, CCTV calibration chips). Reuses the app's
+   existing .map-stack-chip:focus-visible convention so the whole interactive
+   surface is keyboard-navigable with a visible amber ring. */
+.style-btn:focus-visible,
+.pp-toggle-btn:focus-visible,
+.pp-mode-btn:focus-visible,
+.scene-btn:focus-visible,
+.panel-collapse-btn:focus-visible,
+.cctv-cal-value:focus-visible {
+  outline: 1px solid color-mix(in srgb, var(--accent) 80%, transparent);
+  outline-offset: 2px;
+}
