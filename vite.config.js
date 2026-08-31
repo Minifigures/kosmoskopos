@@ -6821,7 +6821,16 @@ function militaryInstallationsProxy() {
     return payload;
   }
 
+  let _installWarmed = false;
   function install(middlewares) {
+    // Pre-warm the demo city (Toronto) at startup so a judge who zooms there
+    // gets cached mapped-installation data instantly, even if Overpass later
+    // rate-limits the server under load (the demo's most common failure mode).
+    if (!_installWarmed) {
+      _installWarmed = true;
+      const warmBox = quantizeMilitaryInstallationBox({ south: 43.6, west: -79.45, north: 43.7, east: -79.33 });
+      Promise.resolve().then(() => refresh(warmBox, militaryInstallationCacheKey(warmBox))).catch(() => {});
+    }
     middlewares.use('/api/military-installations', async (req, res) => {
       if (req.method !== 'GET') {
         res.writeHead(405, { 'Content-Type': 'application/json' });
