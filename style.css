@@ -9236,3 +9236,30 @@ body.scene-playback-mode #first-run-launcher {
     0 0 0 1px rgba(255, 255, 255, 0.03) inset,
     0 1px 0 rgba(255, 255, 255, 0.06) inset;
 }
+
+/* --- Loading screen: ambient depth + a booting scan bar (first impression) --- */
+#loading-screen {
+  background:
+    radial-gradient(ellipse 62% 52% at 50% 42%, rgba(244, 183, 64, 0.09), transparent 70%),
+    var(--bg-dark);
+}
+.loader-content { position: relative; }
+.loader-content::after {
+  content: '';
+  display: block;
+  width: 190px;
+  height: 2px;
+  margin: 24px auto 0;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent 0%, transparent 35%, var(--accent) 50%, transparent 65%, transparent 100%);
+  background-size: 220% 100%;
+  box-shadow: 0 0 12px rgba(244, 183, 64, 0.35);
+  animation: loader-scan 1.5s ease-in-out infinite;
+}
+@keyframes loader-scan {
+  0%   { background-position: 120% 0; }
+  100% { background-position: -120% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loader-content::after { animation: none; background-position: 50% 0; }
+}
