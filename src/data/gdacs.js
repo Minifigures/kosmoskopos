@@ -93,7 +93,7 @@ function createGdacsLayer() {
           const color = alertColor(level);
           const severe = String(level).toLowerCase() === 'red';
           count++;
-          events.push({ name, type: TYPE_LABEL[type] || type || 'Event', level: String(level || 'orange').toLowerCase() });
+          events.push({ name, type: TYPE_LABEL[type] || type || 'Event', level: String(level || 'orange').toLowerCase(), lon, lat });
 
           _ds.entities.add({
             id: `gdacs:${type}:${p.eventid || count}`,

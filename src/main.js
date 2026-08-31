@@ -36,6 +36,7 @@ import {
 import { installScopeMask } from './scopeMask.js';
 import { initFirstRunExperience } from './firstRunExperience.js';
 import { initKosmoSkoposAsk } from './csAsk.js';
+import { initJumpToCrisis } from './csJumpToCrisis.js';
 
 initLogoGaze();
 
@@ -326,6 +327,9 @@ async function init() {
     // KosmoSkopos "Ask the planet" analyst widget — free-AI Duty Officer over
     // /api/analyst (Gemini -> Groq), reading live camera + layer context.
     initKosmoSkoposAsk(viewer, dataManager);
+    // One-click "Jump to crisis": flies the camera to the most severe active
+    // event, reusing the layers' highlight (_top) data.
+    initJumpToCrisis(viewer, dataManager);
 
     // Keep startup chrome truthful: a share is not restored until camera,
     // visual/map/panel lanes, and every requested layer have terminated.

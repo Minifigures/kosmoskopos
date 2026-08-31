@@ -197,7 +197,7 @@ export function createEarthquakesLayer({ overlayHost = DEFAULT_OVERLAY_HOST } = 
         if (!Number.isFinite(mag) || mag < 2.5) continue; // Skip micro-quakes
 
         count++;
-        events.push({ mag: Number(mag), place: place || 'unknown location' });
+        events.push({ mag: mag, place: place || 'unknown location', lon, lat });
         const baseRadius = Math.pow(2, mag) * 1000;
         const color = depthColor(depthKm || 0);
         const isSignificant = mag >= 5.0;
@@ -252,7 +252,7 @@ export function createEarthquakesLayer({ overlayHost = DEFAULT_OVERLAY_HOST } = 
       }
 
       events.sort((a, b) => b.mag - a.mag);
-      _top = events.slice(0, 5).map((e) => ({ mag: Number(e.mag.toFixed(1)), place: e.place }));
+      _top = events.slice(0, 5).map((e) => ({ mag: Number(e.mag.toFixed(1)), place: e.place, lon: e.lon, lat: e.lat }));
       _count = count;
       _lastUpdate = Date.now();
       _lastError = null;

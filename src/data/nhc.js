@@ -70,7 +70,7 @@ function createNhcLayer() {
           const color = stormColor(cls, kt);
           const major = String(cls).toUpperCase() === 'HU' && Number(kt) >= 96;
           count++;
-          active.push({ name, class: label, kt: Number.isFinite(Number(kt)) ? Number(kt) : null, basin: s.basin || s.basinId || '' });
+          active.push({ name, class: label, kt: Number.isFinite(Number(kt)) ? Number(kt) : null, basin: s.basin || s.basinId || '', lon, lat });
           _ds.entities.add({
             id: `nhc:${s.id || s.binNumber || name}`,
             position: Cesium.Cartesian3.fromDegrees(lon, lat),
