@@ -405,6 +405,19 @@ async function init() {
     };
     window.__godsEyeView.voiceCommands = initGevVoiceCommands({ viewer, styleManager, dataManager, sceneDirector, annotations });
 
+    // Hide the mic on deployments with no voice backend (no OpenAI key) so it
+    // never shows a "VOICE SYSTEM ERROR" when clicked. The text AI (Ask
+    // KosmoSkopos) and every other feature are unaffected.
+    fetch('/api/realtime/available')
+      .then((r) => (r.ok ? r.json() : { available: false }))
+      .then((d) => {
+        if (!d || !d.available) {
+          const vc = document.getElementById('gev-voice-control');
+          if (vc) vc.style.display = 'none';
+        }
+      })
+      .catch(() => {});
+
   } catch (error) {
     console.error("KosmoSkopos initialization failed:", error);
     loaderStatus.textContent = `Error: ${describeError(error)}`;

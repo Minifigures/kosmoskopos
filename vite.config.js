@@ -5048,6 +5048,16 @@ function openAiRealtimeProxy() {
       }
     });
 
+    // Cheap voice-availability probe: reports whether a voice backend key is
+    // configured WITHOUT minting a Realtime session (so it is free to call on a
+    // keyed deployment). The client hides the mic when voice is unavailable.
+    middlewares.use('/api/realtime/available', (req, res) => {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json');
+      res.setHeader('Cache-Control', 'no-store');
+      res.end(JSON.stringify({ available: Boolean(process.env.OPENAI_API_KEY) }));
+    });
+
     middlewares.use('/api/realtime/token', async (req, res) => {
       if (req.method !== 'GET' && req.method !== 'POST') {
         res.statusCode = 405;
