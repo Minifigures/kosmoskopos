@@ -15,7 +15,7 @@ services:
       - key: HOST
         value: 0.0.0.0
       - key: NODE_VERSION
-        value: 24.14.0
+        value: 24.22.1
       - key: ANALYST_RATELIMIT_PER_MIN
         value: "15"
       - key: GROQ_MODEL

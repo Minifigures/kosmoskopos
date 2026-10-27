@@ -7,7 +7,7 @@
   "license": "MIT",
   "author": "Marco Ayuste",
   "engines": {
-    "node": ">=24.14.0 <25 || >=26 <27"
+    "node": ">=24.22.1 <25 || >=26.12.1 <27"
   },
   "keywords": [
     "cesium",
